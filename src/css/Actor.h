@@ -15,6 +15,8 @@ private:
 	float currentAnimationTime;
 	GraphicBody * graphicBody;
 	
+	bool queueToDestroy;
+	
 public:
 	
 	virtual void Draw();
@@ -25,6 +27,10 @@ public:
 	virtual Vector GetPhysicsAABB();
 	virtual Vector GetGraphicAABB();
 	
+	virtual Vector GetForwardVector();
+	virtual Vector GetRightVector();
+	virtual Vector GetUpVector();
+	
 	virtual void Update( float deltaTime );
 	
 	virtual int GetBinaryLength();				// includes name, type (class),
@@ -33,6 +39,9 @@ public:
 	
 	static void IsBinaryDynamicActor( const char * binary, int len );
 	static void IsBinaryStaticActor( const char * binary, int len );
+	
+	virtual void AskDestroy();
+	virtual voidDestroy();
 	
 	Actor();
 	~Actor();
