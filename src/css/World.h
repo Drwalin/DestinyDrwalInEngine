@@ -28,13 +28,14 @@ public:
 	Light * SpawnLight( std::string name );
 	
 	Camera * SpawnCamera( std::string name, Vector pos, Vector rotation, float fov, float zNear, float zFar );
-	Actor * spawnStaticActor( std::string name, std::string graphicBodyName, std::string physicsBodyName );
+	Actor * SpawnStaticActor( std::string name, std::string graphicBodyName, std::string physicsBodyName );
 	Actor * SpawnDynamicActor( std::string name, std::string graphicBodyName, Vector size );
+	Actor * SpawnTriggerVolumeActor( std::string name, Vector pos, Vector size );
 	
 	
-	Actor * GetActor( std::string name );
 	Camera * GetCamera( std::string name );
 	Light * GetLight( std::string name );
+	Actor * GetActor( std::string name );
 	
 	void GetActors( Vector beg, Vector end, std::map < Actor *, bool > & actors );
 	

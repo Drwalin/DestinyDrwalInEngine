@@ -52,10 +52,11 @@ public:
 	virtual int GetBinary( char * binary )=0;		// includes name and type (class), paste binary data in this pointer
 	virtual void SetBinary( const char * binary, int len )=0;	// includes name and type (class)
 	
-	static void IsBinaryDynamicActor( const char * binary, int len )=0;
-	static void IsBinaryStaticActor( const char * binary, int len )=0;
+	static void IsBinaryTriggerVolumeActor( const char * binary, int len );
+	static void IsBinaryDynamicActor( const char * binary, int len );
+	static void IsBinaryStaticActor( const char * binary, int len );
 	
-	virtual void AskDestroy()=0;
+	virtual void QueueToDestroy()=0;
 	virtual void Destroy()=0;
 	
 	Actor();
