@@ -25,8 +25,6 @@ private:
 		std::string textureName;
 	};
 	
-	std::string hitSoundName;
-	
 	std::vector < Vector > posvert;				// vertex possition
 	std::vector < Vector > textvert;			// texture possition
 	std::vector < Vector > normal;				// normal vector

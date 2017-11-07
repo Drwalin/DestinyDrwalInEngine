@@ -13,9 +13,10 @@ private:
 public:
 	
 	void Clear();
-	void AddActor( Actor * actor );
 	
-	void GetActors( AABB aabb, std::map < Actor*, bool > & actors );
+	void Add( Actor * actor );
+	
+	void Get( AABB aabb, std::map < Actor*, bool > & actors );		// std::map actors - must be empty
 	
 	Collider();
 	~Collider();

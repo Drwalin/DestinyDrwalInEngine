@@ -3,13 +3,16 @@
 
 class GraphicBody
 {
-private:
+protected:
+	
+	std::string name;
 	
 	ObjectOBJ * data;
 	
 public:
 	
-	void Draw();
+	virtual void DrawDebug()=0;
+	virtual void Draw( int animation, float time )=0;
 	
 	GraphicBody();
 	~GraphicBody();

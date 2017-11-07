@@ -5,7 +5,7 @@ class PhysicsBody
 {
 private:
 	
-	std::string hitSoundName;
+	std::vector < std::string > hitSoundName;
 	
 	std::vector < Vector > vertices;
 	std::vector < Triangle > triangle;

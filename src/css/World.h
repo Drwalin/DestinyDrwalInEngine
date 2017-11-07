@@ -11,7 +11,7 @@ private:
 	
 	std::map < std::string, Actor * > actor;
 	std::map < std::string, Camera * > camera;
-	//std::map < std::string, Light * > light;
+	std::map < std::string, Light * > light;
 	
 	Collider collider;
 	
@@ -23,9 +23,9 @@ public:
 	void PlaySound( std::string name, Vector origin );
 	void PlaySound( std::string name, Vector origin, float minDistance );
 	
-	//void SpawnParticles(...);
+	void SpawnParticles(...);
 	
-	//Light * SpawnLight( std::string name );
+	Light * SpawnLight( std::string name );
 	
 	Camera * SpawnCamera( std::string name, Vector pos, Vector rotation, float fov, float zNear, float zFar );
 	Actor * spawnStaticActor( std::string name, std::string graphicBodyName, std::string physicsBodyName );
@@ -34,7 +34,7 @@ public:
 	
 	Actor * GetActor( std::string name );
 	Camera * GetCamera( std::string name );
-	//Light * GetLight( std::string name );
+	Light * GetLight( std::string name );
 	
 	void GetActors( Vector beg, Vector end, std::map < Actor *, bool > & actors );
 	
