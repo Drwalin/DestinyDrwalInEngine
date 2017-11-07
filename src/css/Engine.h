@@ -7,27 +7,44 @@ private:
 	
 	World * world;
 	
-	std::map < std::string, Texture * > texture;
+	std::string name;
+	
+	std::map < std::string, PhysicsBody * > physicsBody;
 	std::map < std::string, GraphicBody * > graphicBody;
+	std::map < std::string, Texture * > texture;
 	
 	unsigned char * threadsData;
 	int threadsDataLength;
 	
+	float framesPerSecond;
+	int framesCounter;
+	int lastChecked
 	
+	FunctionVoidFloat * FunctionCustomDrawGUI;
+	FunctionVoidFloat * FunctionCustomInput;
+	
+	void InitOpenGL( int argc, char ** argv )
 	
 public:
 	
-	void PlaySound( std::string name, float volume );
-	void PlaySound( std::string name, Vector origin );
-	void PlaySound( std::string name, Vector origin, float minDistance );
+	World * GetWorld();
 	
-	//void SpawnParticles(...);
+	int LoadPhysicsBody( std::string fileName, std::string name );
+	int LoadGraphicBody( std::string fileName, std::string name );
+	int LoadTexture( std::string fileName, std::string name );
+	int LoadSound( std::string fileName, std::string name );
 	
-	Actor * SpawnActor();
+	PhysicsBody * GetPhysicsBody( std::string name );
+	GraphicBody * GetGraphicBody( std::string name );
+	Texture * GetTexture( std::string name );
 	
 	
+	void SetFunctionCustomDrawGUI( FunctionVoidFloat * src );
+	void SetFunctionCustomInput( FunctionVoidFloat * src );
 	
-	Init();
+	void MainLoop();
+	
+	Init( int argc, char ** argv );
 	
 	Engine();
 	~Engine();

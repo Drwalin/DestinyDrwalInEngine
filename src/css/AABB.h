@@ -11,6 +11,8 @@ public:
 	
 	void DrawDebug();
 	
+	float GetVolume();
+	
 	inline AABB & operator = ( AABB src );
 	
 	static inline bool SharedPart( AABB src, AABB & dst );

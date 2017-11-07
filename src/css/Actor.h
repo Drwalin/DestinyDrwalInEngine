@@ -20,16 +20,19 @@ public:
 	virtual void Draw();
 	virtual void DrawDebug();
 	
-	virtual void operator = ( Actor * src );
+	virtual void Set( Actor * src );
 	
 	virtual Vector GetPhysicsAABB();
 	virtual Vector GetGraphicAABB();
 	
 	virtual void Update( float deltaTime );
 	
-	virtual int GetBinaryLength();				// includes name and type (class)
-	virtual int GetBinary( char * dst );		// includes name and type (class)
-	virtual void SetFromBinary( const char * src, int len );	// includes name and type (class)
+	virtual int GetBinaryLength();				// includes name, type (class),
+	virtual int GetBinary( char * binary );		// includes name and type (class), paste binary data in this pointer
+	virtual void SetBinary( const char * binary, int len );	// includes name and type (class)
+	
+	static void IsBinaryDynamicActor( const char * binary, int len );
+	static void IsBinaryStaticActor( const char * binary, int len );
 	
 	Actor();
 	~Actor();

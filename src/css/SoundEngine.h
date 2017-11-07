@@ -1,12 +1,6 @@
 
 #pragma once
 
-#include <map>
-#include <string>
-
-#ifndef SOUND_ENGINE_H
-#define SOUND_ENGINE_H
-
 class SoundEngine
 {
 	irrklang::ISoundEngine * SEngine;
@@ -42,5 +36,5 @@ public:
 	~SoundEngine();
 };
 
-#endif
+
 

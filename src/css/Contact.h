@@ -17,7 +17,6 @@ private:
 		Pair(){}
 	};
 	
-	Actor * parent;
 	std::map < Actor*, std::vector < Pair > > contact;
 	Vector normal;
 	
@@ -33,7 +32,6 @@ public:
 	void Clear();
 	
 	Contact();
-	Contact( Actor * srcParent );
 	~Contact();
 };
 
