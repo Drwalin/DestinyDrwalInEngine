@@ -11,8 +11,8 @@ protected:
 	
 public:
 	
-	virtual void DrawDebug()=0;
-	virtual void Draw( int animation, float time )=0;
+	virtual void DrawDebug() const=0;
+	virtual void Draw( const int animation, const float time ) const=0;
 	
 	GraphicBody();
 	~GraphicBody();

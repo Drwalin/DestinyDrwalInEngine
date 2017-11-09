@@ -16,7 +16,7 @@ public:
 	
 	void Add( Actor * actor );
 	
-	void Get( AABB aabb, std::map < Actor*, bool > & actors );		// std::map actors - must be empty
+	void Get( AABB aabb, std::map < Actor*, bool > & actors ) const;		// std::map actors - must be empty
 	
 	Collider();
 	~Collider();

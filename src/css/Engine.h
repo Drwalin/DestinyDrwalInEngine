@@ -5,6 +5,9 @@ class Engine
 {
 private:
 	
+	ServerEngine * server;
+	ClientEngine * client;
+	
 	World * world;
 	
 	std::string name;
@@ -29,14 +32,14 @@ public:
 	
 	World * GetWorld();
 	
-	int LoadPhysicsBody( std::string fileName, std::string name );
-	int LoadGraphicBody( std::string fileName, std::string name );
-	int LoadTexture( std::string fileName, std::string name );
-	int LoadSound( std::string fileName, std::string name );
+	int LoadPhysicsBody( const std::string fileName, const std::string name );
+	int LoadGraphicBody( const std::string fileName, const std::string name );
+	int LoadTexture( const std::string fileName, const std::string name );
+	int LoadSound( const std::string fileName, const std::string name );
 	
-	PhysicsBody * GetPhysicsBody( std::string name );
-	GraphicBody * GetGraphicBody( std::string name );
-	Texture * GetTexture( std::string name );
+	PhysicsBody * GetPhysicsBody( const std::string name ) const;
+	GraphicBody * GetGraphicBody( const std::string name ) const;
+	Texture * GetTexture( const std::string name ) const;
 	
 	
 	void SetFunctionCustomDrawGUI( FunctionVoidFloat * src );
@@ -44,7 +47,7 @@ public:
 	
 	void MainLoop();
 	
-	Init( int argc, char ** argv );
+	Init( int argc, char ** argv, int hostMode );
 	
 	Engine();
 	~Engine();

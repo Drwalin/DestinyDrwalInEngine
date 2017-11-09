@@ -18,9 +18,9 @@ public:
 	
 	void FromPhysicsBody( PhysicsBody * src );
 	
-	int GetBinaryLength();				// includes name, type (class),
-	int GetBinary( char * binary );		// includes name and type (class), paste binary data in this pointer
-	void SetBinary( const char * binary, int len );	// includes name and type (class)
+	int GetBinaryLength();				// includes name,
+	int GetBinary( char * binary );		// includes name, paste binary data at this point in memory
+	void SetBinary( const char * binary, int len );	// includes name
 	
 	PhysicsBody();
 	~PhysicsBody();

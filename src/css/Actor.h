@@ -8,56 +8,67 @@ protected:
 	World * world;
 	std::string name;
 	
-	Vector pos;
+	Vector pos;		// barycenter
 	Vector bpos;
 	
-	int currentAnimationId;
-	float currentAnimationTime;
-	GraphicBody * graphicBody;
+	GraphicBodyInstance graphicBodyInfo;
 	
 	bool queueToDestroy;
 	
 public:
 	
-	virtual void Draw()=0;
-	virtual void DrawDebug()=0;
+	World * GetWorld() const;
 	
-	virtual void Set( Actor * src )=0;
+	virtual void Set( const Actor * src );
 	
-	virtual Vector GetPhysicsAABB()=0;
-	virtual Vector GetGraphicAABB()=0;
+	virtual void Draw() const=0;
+	virtual void DrawDebug() const=0;
 	
-	virtual Vector GetForwardVector()=0;
-	virtual Vector GetRightVector()=0;
-	virtual Vector GetUpVector()=0;
+	virtual void SetBySameType( Actor * src )=0;
 	
-	virtual void Update( float deltaTime )=0;
+	virtual Vector GetPhysicsAABB() const=0;
+	virtual Vector GetGraphicAABB() const=0;
+	virtual float GetHeight() const=0;
 	
-	virtual void AddForce( Vector src )=0;
-	virtual void AddVelocity( Vector src )=0;
-	virtual void AddPos( Vector src )=0;
-	virtual void AddSize( Vector src )=0;
+	virtual Vector GetForwardVector() const=0;
+	virtual Vector GetRightVector() const =0;
+	virtual Vector GetUpVector() const=0;
 	
-	virtual void SetForce( Vector src )=0;
-	virtual void SetVelocity( Vector src )=0;
-	virtual void SetPos( Vector src )=0;
-	virtual void SetSize( Vector src )=0;
+	virtual void Update( const float deltaTime )=0;
 	
-	virtual void GetForce( Vector src )=0;
-	virtual void GetVelocity( Vector src )=0;
-	virtual void GetPos( Vector src )=0;
-	virtual void GetSize( Vector src )=0;
+	virtual void AddForce( const Vector src )=0;
+	virtual void AddVelocity( const Vector src )=0;
+	virtual void AddPos( const Vector src )=0;
+	virtual void AddSize( const Vector src )=0;				// half size
 	
-	virtual int GetBinaryLength()=0;				// includes name, type (class),
-	virtual int GetBinary( char * binary )=0;		// includes name and type (class), paste binary data in this pointer
-	virtual void SetBinary( const char * binary, int len )=0;	// includes name and type (class)
+	virtual void SetForce( const Vector src )=0;
+	virtual void SetVelocity( const Vector src )=0;
+	virtual void SetPos( const Vector src )=0;
+	virtual void SetSize( const Vector src )=0;				// half size
 	
-	static void IsBinaryTriggerVolumeActor( const char * binary, int len );
-	static void IsBinaryDynamicActor( const char * binary, int len );
-	static void IsBinaryStaticActor( const char * binary, int len );
+	virtual void GetForce( const Vector src ) const=0;
+	virtual void GetVelocity( const Vector src ) const=0;
+	virtual void GetPos( const Vector src ) const=0;
+	virtual void GetSize( const Vector src ) const=0;			// half size
 	
-	virtual void QueueToDestroy()=0;
+	
+	virtual int GetBinaryLength() const=0;				// includes name, type (class),
+	virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data in this pointer
+	virtual void SetBinary( const char * binary, const int len )=0;	// includes name and type (class)
+	
+	
+	static void IsBinaryTriggerVolumeActor( const char * binary, const int len );
+	static void IsBinaryDynamicActor( const char * binary, const int len );
+	static void IsBinaryStaticActor( const char * binary, const int len );
+	
+	static Actor * GetNewActorTemplateByBinary( const char * binary, const int len );
+	static Actor * GetNewActorByBinary( const char * binary, const int len );
+	
+	static Actor * GetNewActorByTemplate( const Actor * src );
+	
+	static void Destroy( Actor * src );
 	virtual void Destroy()=0;
+	void QueueToDestroy()=0;
 	
 	Actor();
 	~Actor();

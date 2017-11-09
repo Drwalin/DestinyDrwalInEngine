@@ -27,7 +27,7 @@ public:
 	void operator  = ( Contact src );
 	
 	void CalcNormal();
-	inline Vector GetNormal();
+	inline Vector GetNormal() const;
 	
 	void Clear();
 	

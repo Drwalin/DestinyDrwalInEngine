@@ -7,5 +7,12 @@
 #define		DEBUG(debugArgument)
 #endif
 
+enum WebEngine
+{
+	ENGINE_SERFVER_NONE,
+	ENGINE_SERVER_HOST,
+	ENGINE_SERVER_CLIENT
+};
+
 
 

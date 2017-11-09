@@ -18,19 +18,20 @@ class SoundEngine
 	float GlobalVolume;
 	
 public:
-	inline void Init();
-	inline void DeInit();
+	void Init();
+	void DeInit();
 	
-	inline void AddSound( char * src );		// file name with path
-	inline void PlaySound( const char * src, float volume );
-	inline void PlaySound( const char * src, Vector origin );
-	inline void PlaySound( const char * src, Vector origin, float minDistance );
-	inline int GetSoundId( char * src );
+	void AddSound( const std::string fileName, const std::string name );		// file name with path
 	
-	inline void Update();
+	void PlaySound( const std::string name, const float volume );
 	
-	inline void SetVolume( float dst );
-	inline float GetVolume();
+	void PlaySound( const std::string name, const Vector origin, const float minDistance );
+	void PlaySound( const std::string name, const Vector origin );
+	
+	void Update();
+	
+	void SetVolume( const float dst );
+	float GetVolume() const;
 	
 	SoundEngine();
 	~SoundEngine();

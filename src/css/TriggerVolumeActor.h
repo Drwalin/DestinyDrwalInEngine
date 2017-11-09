@@ -17,6 +17,8 @@ public:
 	void SetOnStepOutFunction( FunctionVoidActor src );
 	void SetOverlappingFunction( FunctionVoidActor src );
 	
+	void Update( float deltaTime ) override;
+	
 	TriggerVolumeActor();
 	~TriggerVolumeActor();
 };

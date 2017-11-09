@@ -18,8 +18,6 @@ private:
 	float zNear;
 	float wh;		// width / height
 	
-	
-	
 public:
 	
 	void SetPos( Vector src );
@@ -31,6 +29,8 @@ public:
 	Vector GetUpVector() const;
 	Vector GetRotator() const;
 	Vector GetPos() const;
+	
+	AABB GetViewAABB() const;
 	
 	void Init( std::string srcName, Vector srcPos, Vector srcRotator, Texture * srcTexutreColor, Texture * srcTextureDepth, float srcFov, float srcZFar, float srcZNear, float wh );
 	

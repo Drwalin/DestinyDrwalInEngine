@@ -35,19 +35,19 @@ SoundEngine::SoundSource::~SoundSource()
 ////////////////////////
 // Sound Engine Methods:
 
-inline void SoundEngine::Init()
+void SoundEngine::Init()
 {
 	SEngine = irrklang::createIrrKlangDevice();
 }
 
-inline void SoundEngine::DeInit()
+void SoundEngine::DeInit()
 {
 	if( SEngine != NULL )
 		SEngine->drop();
 	samples.resize( 0 );
 }
 
-inline void SoundEngine::Update()
+void SoundEngine::Update()
 {
 	Vector pos;
 	pos = engineInstance->Object(0)->GetEyePos();
@@ -68,17 +68,17 @@ inline void SoundEngine::Update()
 	SEngine->setListenerPosition( position, lookDirection, velPerSecond, upVector );
 }
 
-inline void SoundEngine::AddSound( char * src )
+void SoundEngine::AddSound( const std::string fileName, const std::string name )
 {
 	ifstream file;
-	file.open( src );
+	file.open( fileName.c_str() );
 	if( file.good() )
 	{
-		soundSource[src].source = SEngine->addSoundSourceFromFile( src );
+		soundSource[name].source = SEngine->addSoundSourceFromFile( src.c_str() );
 	}
 }
 
-inline void SoundEngine::PlaySound( const char * src, float volume )
+void SoundEngine::PlaySound( const std::string name, const float volume )
 {
 	it auto = soundSource.find(src);
 	if( it != soundSource.end() )
@@ -90,12 +90,12 @@ inline void SoundEngine::PlaySound( const char * src, float volume )
 	}
 }
 
-inline void SoundEngine::PlaySound( const char * src, Vector origin )
+void SoundEngine::PlaySound( const std::string name, const Vector origin )
 {
 	PlaySound( src, origin, 1.13f );
 }
 
-inline void SoundEngine::PlaySound( const char * src, Vector origin, float minDistance )
+void SoundEngine::PlaySound( const std::string name, const Vector origin, const float minDistance )
 {
 	it auto = soundSource.find(src);
 	if( it != soundSource.end() )
@@ -111,12 +111,12 @@ inline void SoundEngine::PlaySound( const char * src, Vector origin, float minDi
 	}
 }
 
-inline void SoundEngine::SetVolume( float dst )
+void SoundEngine::SetVolume( const float dst )
 {
 	GlobalVolume = dst;
 }
 
-inline float SoundEngine::GetVolume()
+float SoundEngine::GetVolume() const
 {
 	return GlobalVolume;
 }

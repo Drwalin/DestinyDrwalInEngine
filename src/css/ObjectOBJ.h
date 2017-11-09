@@ -8,12 +8,15 @@ private:
 	class MaterialObject
 	{
 	public:
+		
 		class Face
 		{
 		public:
+			
 			class Vertex
 			{
 			public:
+				
 				int v;		// vertex
 				int vt;		// texture
 				int vn;		// normal
@@ -22,6 +25,7 @@ private:
 			Vertex ids[3];
 		};
 		
+		stfd::vector < Face > faces;
 		std::string textureName;
 	};
 	
@@ -30,10 +34,11 @@ private:
 	std::vector < Vector > normal;				// normal vector
 	std::vector < MaterialObject > object;		// vertices id
 	
-	
 public:
 	
-	int LoadFromFileOBJ( std::string fileName );
+	int LoadFromOBJFile( const std::string fileName );
+	int SaveToOBJFile( const std::string fileName );
+	
 	
 };
 

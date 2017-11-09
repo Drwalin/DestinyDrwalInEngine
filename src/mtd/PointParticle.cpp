@@ -38,20 +38,30 @@ ONEPointParticle::~ONEPointParticle()
 
 inline void PointParticle::Update( float time )
 {
-	int i;
-	for( i = 0; i < particle.size(); i++ )
+	if( particle.size() > 0 )
 	{
-		particle[i].Update( time );
-		if( particle[i].LifeTime <= 0.0f )
+		int i;
+		for( i = 0; i < particle.size(); i++ )
 		{
-			particle.erase( particle.begin() + i );
-			i--;
-			continue;
+			particle[i].Update( time );
+			if( particle[i].LifeTime <= 0.0f )
+			{
+				particle.erase( particle.begin() + i );
+				i--;
+				continue;
+			}
 		}
+	}
+	--sortAfter;
+	if( sortAfter <= 0 )
+	{
+		sortAfter = 3;
+		if( particle.size() > 1 )
+			std::sort( particle.begin(), particle.end() );
 	}
 }
 
-inline void PointParticle::AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count )
+inline void PointParticle::AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char a, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count )
 {
 	int i;
 	int col;
@@ -79,40 +89,34 @@ inline void PointParticle::AddParticle( Vector origin, float originrandomization
 		else if( col > 255 ) particle[pastsize+i].b = 255;
 		else particle[pastsize+i].b = (unsigned char)(col);
 		
+		col = int(a) + ((rand()%(brand*2))-brand);
+		if( col < 0 ) particle[pastsize+i].a = 0;
+		else if( col > 255 ) particle[pastsize+i].a = 255;
+		else particle[pastsize+i].a = (unsigned char)(col);
+		
 		particle[pastsize+i].LifeTime = lifetime + (float((rand()%600)-300)*randomizationlifetime/300.0f);
 	}
 }
 
-inline void PointParticle::Draw()
+inline void PointParticle::Draw() const
 {
-	
-	glDisable( GL_TEXTURE_2D );
-	glDisable( GL_BLEND );
-	glDepthFunc( GL_LESS );
-	glPointSize( 3.0f );
-	
-	int i;
-	glBegin( GL_POINTS );
-	for( i = 0; i < particle.size(); i++ )
-	{
-		glColor3ubv( &(particle[i].r) );
-		glVertex3fv( &(particle[i].pos[0]) );
-	}
-	glEnd();
+	VBO vbo;
+	for( int i = 0; i < particle.size(); ++i )
+		vbo.AddPoint( particle[i].pos, partice[i].r, partice[i].g, partice[i].b, partice[i].a );
+	vbo.GenerateAsPoints( 2.0f /*size*/, VBO::rgba /* |VBO::sth */, GL_BLEND );
+	vbo.Draw();
+	vbo.Destroy();
+	vbo.Clear();
 }
 
 PointParticle::PointParticle()
 {
 	particle.resize( 0 );
-//	GravityPoint = -100000.0f;
-//	GravityAccelerate = -9.81f;
 }
 
 PointParticle::~PointParticle()
 {
 	particle.resize( 0 );
-//	GravityPoint = 0.0f;
-//	GravityAccelerate = 0.0f;
 }
 
 

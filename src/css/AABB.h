@@ -9,26 +9,27 @@ private:
 	
 public:
 	
-	void DrawDebug();
+	void DrawDebug() const;
 	
-	float GetVolume();
+	float GetVolume() const;
 	
-	inline AABB & operator = ( AABB src );
+	AABB & operator = ( const AABB src );
 	
-	static inline bool SharedPart( AABB src, AABB & dst );
+	static bool SharedPart( const AABB srcA, const AABB srcB, AABB & dst );
+	bool SharedPart( const AABB src, AABB & dst ) const;
 	
-	inline Vector GetMin();
-	inline Vector GetMax();
-	inline Vector GetSize();
+	Vector GetMin() const;
+	Vector GetMax() const;
+	Vector GetSize() const;
 	
-	inline Contact GetContact( AABB src );
-	inline Contact GetContact( Triangle src );
+	Contact GetContact( AABB src ) const;
+	Contact GetContact( Triangle src ) const;
 	
-	inline void AddPoint( Vector point );
+	void AddPoint( Vector point );
 	
-	inline void SetMin( Vector min_ );
-	inline void SetMax( Vector max_ );
-	inline void Set( Vector min_, Vector max_ );
+	void SetMin( Vector min_ );
+	void SetMax( Vector max_ );
+	void Set( Vector min_, Vector max_ );
 	
 	AABB();
 	AABB( Vector min_, Vector max_ );
