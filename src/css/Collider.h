@@ -5,10 +5,10 @@ class Collider
 {
 private:
 	
-	Octtree < Actor * > octtree;
+	Octtree < std::vector < Actor* > > octtree;
 	Vector pos;
 	Vector size;
-	std::vector < Actor * > outsideActors;
+	std::vector < Actor* > outsideActors;
 	
 public:
 	

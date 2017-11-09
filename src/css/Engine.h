@@ -12,7 +12,7 @@ private:
 	
 	std::string name;
 	
-	std::map < std::string, PhysicsBody * > physicsBody;
+	std::map < std::string, StaticActor * > physicsBody;
 	std::map < std::string, GraphicBody * > graphicBody;
 	std::map < std::string, Texture * > texture;
 	
@@ -37,7 +37,7 @@ public:
 	int LoadTexture( const std::string fileName, const std::string name );
 	int LoadSound( const std::string fileName, const std::string name );
 	
-	PhysicsBody * GetPhysicsBody( const std::string name ) const;
+	StaticActor * GetPhysicsBody( const std::string name ) const;
 	GraphicBody * GetGraphicBody( const std::string name ) const;
 	Texture * GetTexture( const std::string name ) const;
 	

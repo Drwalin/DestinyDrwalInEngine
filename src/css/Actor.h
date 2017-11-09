@@ -15,7 +15,11 @@ protected:
 	
 	bool queueToDestroy;
 	
+	void * customData;		// this can use gameDeveloper, he must constract and destruct it on his own
+	
 public:
+	
+	void ** GetCustomData();
 	
 	World * GetWorld() const;
 	
@@ -40,16 +44,19 @@ public:
 	virtual void AddVelocity( const Vector src )=0;
 	virtual void AddPos( const Vector src )=0;
 	virtual void AddSize( const Vector src )=0;				// half size
+	virtual void AddRotation const Vector src )=0;
 	
 	virtual void SetForce( const Vector src )=0;
 	virtual void SetVelocity( const Vector src )=0;
 	virtual void SetPos( const Vector src )=0;
 	virtual void SetSize( const Vector src )=0;				// half size
+	virtual void SetRotation( const Vector src )=0;
 	
-	virtual void GetForce( const Vector src ) const=0;
-	virtual void GetVelocity( const Vector src ) const=0;
-	virtual void GetPos( const Vector src ) const=0;
-	virtual void GetSize( const Vector src ) const=0;			// half size
+	virtual Vector GetForce() const=0;
+	virtual Vector GetVelocity() const=0;
+	virtual Vector GetPos() const=0;
+	virtual Vector GetSize() const=0;			// half size
+	virtual Vector GetRotation() const=0;
 	
 	
 	virtual int GetBinaryLength() const=0;				// includes name, type (class),

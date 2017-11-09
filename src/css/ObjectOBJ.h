@@ -25,7 +25,7 @@ private:
 			Vertex ids[3];
 		};
 		
-		stfd::vector < Face > faces;
+		std::vector < Face > faces;
 		std::string textureName;
 	};
 	
@@ -37,9 +37,12 @@ private:
 public:
 	
 	int LoadFromOBJFile( const std::string fileName );
-	int SaveToOBJFile( const std::string fileName );
+	int SaveToOBJFile( const std::string fileName ) const;
 	
+	void Destroy();
 	
+	ObjectOBJ();
+	~ObjectOBJ();
 };
 
 

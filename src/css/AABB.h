@@ -13,7 +13,10 @@ public:
 	
 	float GetVolume() const;
 	
-	AABB & operator = ( const AABB src );
+	AABB operator = ( const AABB src );
+	AABB operator + ( const AABB src ) const;
+	AABB operator + ( const Vector src ) const;
+	AABB operator - ( const Vector src ) const;
 	
 	static bool SharedPart( const AABB srcA, const AABB srcB, AABB & dst );
 	bool SharedPart( const AABB src, AABB & dst ) const;

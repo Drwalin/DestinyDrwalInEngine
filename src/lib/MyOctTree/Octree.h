@@ -32,6 +32,7 @@ public:
 	inline bool Exist( const int _x, const int _y, const int _z );
 	inline void Set( const int _x, const int _y, const int _z, const T src );
 	inline T& Get( const int _x, const int _y, const int _z );
+	inline T& GetConst( const int _x, const int _y, const int _z );
 	inline void Erase( const int _x, const int _y, const int _z );
 	
 	inline int GetNumberOfNodes();

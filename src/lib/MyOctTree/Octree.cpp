@@ -407,6 +407,33 @@ inline T& Octtree<T>::Get( const int _x, const int _y, const int _z )
 		fx = int(_x>>(lvl-i))&1;
 		fy = int(_y>>(lvl-i))&1;
 		fz = int(_z>>(lvl-i))&1;
+		if( currentNode -> node[fx][fy][fz] == NULL )
+		{
+			currentNode -> node[fx][fy][fz] = new OcttreeNode<T>;
+		}
+		currentNode = currentNode -> node[fx][fy][fz];
+	}
+	
+	if( currentNode -> data == NULL )
+	{
+		currentNode -> data = new T;
+	}
+	
+	return *(currentNode -> data);
+}
+
+template < class T >
+inline T& Octtree<T>::GetConst( const int _x, const int _y, const int _z )
+{
+	int i, fx, fy, fz;
+	
+	OcttreeNode<T> * currentNode = &node;
+	
+	for( i = 0; i < lvl; ++i )
+	{
+		fx = int(_x>>(lvl-i))&1;
+		fy = int(_y>>(lvl-i))&1;
+		fz = int(_z>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy][fz] != NULL )
 		{
 			currentNode = currentNode -> node[fx][fy][fz];
