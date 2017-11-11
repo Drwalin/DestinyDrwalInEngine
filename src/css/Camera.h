@@ -20,8 +20,8 @@ private:
 	
 public:
 	
-	void SetPos( Vector src );
-	void SetRotator( Vector src );
+	void SetPos( const Vector src );
+	void SetRotator( const Vector src );
 	
 	Vector GetRightSideVector() const;
 	Vector GetLeftSideVector() const;
@@ -31,10 +31,12 @@ public:
 	Vector GetPos() const;
 	
 	AABB GetViewAABB() const;
+	bool IsAABBInside( const AABB aabb ) const;
 	
-	void Init( std::string srcName, Vector srcPos, Vector srcRotator, Texture * srcTexutreColor, Texture * srcTextureDepth, float srcFov, float srcZFar, float srcZNear, float wh );
+	void Init( const std::string srcName, const Vector srcPos, const Vector srcRotator, const Texture * srcTexutreColor, const Texture * srcTextureDepth, const float srcFov, const float srcZFar, const float srcZNear, const float wh );
 	
 	void SetView();
+	static void SetView( const Camera * camera );
 	
 	void Destroy();
 	

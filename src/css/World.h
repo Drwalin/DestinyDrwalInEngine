@@ -15,15 +15,17 @@ private:
 	
 	Collider collider;
 	
+	float timeScale;
+	
 public:
 	
-	void InitWorld( 
+	void InitWorld( const AABB aabb, const std::string nameSrc );
 	
 	void PlaySound( const std::string name, const float volume );
 	void PlaySound( const std::string name, const Vector origin );
 	void PlaySound( const std::string name, const Vector origin, const float minDistance );
 	
-	void SpawnParticles(...);
+	// void SpawnParticles(...);
 	
 	Camera * SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight );
 	Light * SpawnLight( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int lightMapWidth, const int lightMapHeight );
@@ -40,13 +42,13 @@ public:
 	void DestroyLight( const std::string name );
 	void DestroyActor( const std::string name );
 	
-	void GetActors( AABB aabb, std::map < Actor *, bool > & actors ) const;
+	void GetActors( const AABB aabb, std::map < Actor *, bool > & actors ) const;
 	
-	void Draw() const;
 	void DrawDebug() const;
+	void Draw() const;
 	
 	void UpdateCollider();
-	void UpdateCollision();
+	void UpdateCollisions();
 	void Update( const float deltaTime );
 	
 	World();

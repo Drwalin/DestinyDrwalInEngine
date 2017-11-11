@@ -24,18 +24,20 @@ public:
 	Vector GetMin() const;
 	Vector GetMax() const;
 	Vector GetSize() const;
+	Vector GetCenter() const;
 	
-	Contact GetContact( AABB src ) const;
-	Contact GetContact( Triangle src ) const;
+	Contact GetContact( const AABB src ) const;
+	Contact GetContact( const Triangle src ) const;
+	Contact GetContact( const Triangle * src ) const;
 	
-	void AddPoint( Vector point );
+	void AddPoint( const Vector point );
 	
-	void SetMin( Vector min_ );
-	void SetMax( Vector max_ );
-	void Set( Vector min_, Vector max_ );
+	void SetMin( const Vector min_ );
+	void SetMax( const Vector max_ );
+	void Set( const Vector min_, const Vector max_ );
 	
 	AABB();
-	AABB( Vector min_, Vector max_ );
+	AABB( const Vector min_, const Vector max_ );
 	~AABB();
 };
 

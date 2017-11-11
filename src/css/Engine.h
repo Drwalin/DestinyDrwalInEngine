@@ -30,7 +30,7 @@ private:
 	
 public:
 	
-	World * GetWorld();
+	World * GetWorld();  const
 	
 	int LoadPhysicsBody( const std::string fileName, const std::string name );
 	int LoadGraphicBody( const std::string fileName, const std::string name );

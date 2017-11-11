@@ -6,17 +6,18 @@ class Collider
 private:
 	
 	Octtree < std::vector < Actor* > > octtree;
+	std::vector < Actor* > outsideActors;
+	
 	Vector pos;
 	Vector size;
-	std::vector < Actor* > outsideActors;
 	
 public:
 	
 	void Clear();
 	
-	void Add( Actor * actor );
+	void AddActor( Actor * actor );
 	
-	void Get( AABB aabb, std::map < Actor*, bool > & actors ) const;		// std::map actors - must be empty
+	void GetActor( AABB aabb, std::map < Actor*, bool > & actors ) const;		// std::map actors - must be empty
 	
 	Collider();
 	~Collider();
