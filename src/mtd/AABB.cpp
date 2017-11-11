@@ -1,50 +1,127 @@
 
 #pragma once
 
-void AABB::AddPoint( Vector point )
+void DrawDebug() const
 {
-	if( point[0] < min[0] )		min[0] = point[0];
-	else if( point[0] > max[0] )		max[0] = point[0];
 	
-	if( point[1] < min[1] )		min[1] = point[1];
-	else if( point[1] > max[1] )		max[1] = point[1];
-	
-	if( point[2] < min[2] )		min[2] = point[2];
-	else if( point[2] > max[2] )		max[2] = point[2];
 }
 
-bool AABB::SharedPart( AABB src, AABB & dst )
+inline float GetVolume() const
 {
-	dst = AABB();
-	if( src.min <= max )
+	Vector a = max-min;
+	return abs( a[0] * a[1] * a[2] );
+}
+
+inline AABB AABB::operator = ( const AABB src )
+{
+	min = src.min;
+	max = src.max;
+}
+
+inline AABB AABB::operator + ( const AABB src ) const
+{
+	return AABB( Math::Min(min,src.min), Math::Max(max,src.max) );
+}
+
+inline AABB AABB::operator + ( const Vector src ) const
+{
+	return AABB( min+src, max+src );
+}
+
+inline AABB AABB::operator - ( const Vector src ) const
+{
+	return AABB( min-src, max-src );
+}
+
+inline bool AABB::SharedPart( const AABB a, const AABB b, AABB & dst )
+{
+	if( a.max > b.min )
 	{
-		dst = AABB( src.min, max );
-		return true;
+		if( a.min < b.max )
+		{
+			dst.min = Math::Max( a.min, b.min );
+			dst.max = Math::Min( a.max, b.max );
+			return true;
+		}
 	}
 	return false;
 }
 
-Vector AABB::GetMin()
+inline bool AABB::SharedPart( const AABB src, AABB & dst ) const
+{
+	if( max > src.min )
+	{
+		if( min < src.max )
+		{
+			dst.min = Math::Max( min, src.min );
+			dst.max = Math::Min( max, src.max );
+			return true;
+		}
+	}
+	return false;
+}
+
+inline Vector AABB::GetMin() const
 {
 	return min;
 }
 
-Vector AABB::GetMax()
+inline Vector AABB::GetMax() const
 {
 	return max;
 }
 
-void AABB::SetMin( Vector min_ )
+inline Vector AABB::GetSize() const
+{
+	return max-min;
+}
+
+inline Vector AABB::GetCenter() const
+{
+	return (min+max) * 0.5f;
+}
+
+Contact AABB::GetContact( const AABB src ) const
+{
+	
+}
+
+Contact AABB::GetContact( const Triangle src ) const
+{
+	
+}
+
+Contact AABB::GetContact( const Triangle * src ) const
+{
+	
+}
+
+Contact GetContact( const Vector beg, const Vector end ) const
+{
+	
+}
+
+inline void AABB::AddPoint( const Vector point )
+{
+	if( point[0] < min[0] )				min[0] = point[0];
+	else if( point[0] > max[0] )		max[0] = point[0];
+	if( point[1] < min[1] )				min[1] = point[1];
+	else if( point[1] > max[1] )		max[1] = point[1];
+	if( point[2] < min[2] )				min[2] = point[2];
+	else if( point[2] > max[2] )		max[2] = point[2];
+}
+
+inline void AABB::SetMin( const Vector min_ )
 {
 	min = min_;
 }
 
-void AABB::SetMax( Vector max_ )
+inline void AABB::SetMax( const Vector max_ )
 {
 	max = max_;
 }
 
-void AABB::Set( Vector min_, Vector max_ )
+inline void AABB::Set( const Vector min_, const Vector max_ )
 {
 	min = min_;
 	max = max_;
@@ -56,7 +133,7 @@ AABB::AABB()
 	max.Set( 0.0f, 0.0f, 0.0f );
 }
 
-AABB::AABB( Vector min_, Vector max_ )
+AABB::AABB( const Vector min_, const Vector max_ )
 {
 	min = min_;
 	max = max_;

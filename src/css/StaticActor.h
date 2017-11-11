@@ -51,12 +51,12 @@ public:
 	virtual Vector GetRotation() const override;
 	
 	
-	virtual int GetBinaryLength() const override;				// includes name, type (class),
+	virtual void UpdateBinary( const char * binary, const int len ) override;	// includes name and type (class)
 	virtual int GetBinary( char * binary ) const override;		// includes name and type (class), paste binary data in this pointer
-	virtual void SetBinary( const char * binary, const int len ) override;	// includes name and type (class)
+	virtual int GetBinaryLength() const override;				// includes name, type (class),
 	
 	
-	virtual StaticActor() override;
+	StaticActor();
 	virtual ~StaticActor() override;
 };
 

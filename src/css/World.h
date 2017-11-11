@@ -19,7 +19,7 @@ private:
 	
 public:
 	
-	void InitWorld( const AABB aabb, const std::string nameSrc );
+	void InitWorld( const AABB aabb, const std::string name );
 	
 	void PlaySound( const std::string name, const float volume );
 	void PlaySound( const std::string name, const Vector origin );
@@ -32,6 +32,7 @@ public:
 	Actor * SpawnStaticActor( const std::string name, const std::string graphicBodyName, const std::string physicsBodyName );
 	Actor * SpawnDynamicActor( const std::string name, const std::string graphicBodyName, const Vector size );
 	Actor * SpawnTriggerVolumeActor( const std::string name, const Vector pos, const Vector size );
+	Actor * SpawnActorByTemplate( const Actor * src, const std::string name );
 	
 	
 	Camera * GetCamera( const std::string name );
@@ -46,6 +47,10 @@ public:
 	
 	void DrawDebug() const;
 	void Draw() const;
+	
+	void UpdateBinaryCamera( const char * binary, const int len );
+	void UpdateBinaryLight( const char * binary, const int len );
+	void UpdateBinaryActor( const char * binary, const int len );
 	
 	void UpdateCollider();
 	void UpdateCollisions();

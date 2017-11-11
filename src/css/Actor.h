@@ -19,9 +19,10 @@ protected:
 	
 public:
 	
-	void ** GetCustomData();
+	inline void ** GetCustomData();
 	
-	World * GetWorld() const;
+	inline World * GetWorld() const;
+	inline std::string GetName() const;
 	
 	virtual void SetByTemplate( const Actor * src )=0;
 	
@@ -56,25 +57,26 @@ public:
 	virtual Vector GetRotation() const=0;
 	
 	
+	virtual void UpdateBinary( const char * binary, const int len )=0;	// includes name and type (class)
+	virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data at this pointer
 	virtual int GetBinaryLength() const=0;				// includes name, type (class),
-	virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data in this pointer
-	virtual void SetBinary( const char * binary, const int len )=0;	// includes name and type (class)
 	
 	
-	static void IsBinaryTriggerVolumeActor( const char * binary, const int len );
-	static void IsBinaryDynamicActor( const char * binary, const int len );
-	static void IsBinaryStaticActor( const char * binary, const int len );
+	static bool IsBinaryTriggerVolumeActor( const char * binary, const int len );
+	static bool IsBinaryDynamicActor( const char * binary, const int len );
+	static bool IsBinaryStaticActor( const char * binary, const int len );
 	
 	static Actor * GetNewActorByBinaryTemplate( const char * binary, const int len );
 	static Actor * GetNewActorByBinaryType( const char * binary, const int len );
 	
 	static Actor * GetNewActorByTemplate( const Actor * src );
+	static Actor * GetNewActorByType( const Actor * src );
 	
-	static void Destroy( Actor * src );
+	inline static void Destroy( Actor * src );
 	virtual void Destroy()=0;
-	void QueueToDestroy()=0;
+	inline void QueueToDestroy();
 	
-	virtual Actor()=0;
+	Actor();
 	virtual ~Actor()=0;
 };
 
