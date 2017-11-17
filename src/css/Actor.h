@@ -15,10 +15,12 @@ protected:
 	
 	bool queueToDestroy;
 	
-	void * customData;		// this can use gameDeveloper, he must constract and destruct it on his own
+	std::string customString;		// this can use gameDeveloper
+	void * customData;				// this can use gameDeveloper, he must constract and destruct it on his own
 	
 public:
 	
+	inline std::string & GetCustomString();
 	inline void ** GetCustomData();
 	
 	inline World * GetWorld() const;

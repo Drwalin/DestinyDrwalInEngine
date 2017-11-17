@@ -1,0 +1,53 @@
+
+
+
+[Actor]
+
+BinaryActor
+{
+	int Len (4)			// of all
+	byte Type (1)
+	byte Class (1)
+	short NameLen (2)
+	std::string Name (NameLen)
+	Vector Pos (12)
+	Vecotr BPos (12)
+	int CustomStringLen (4)
+	std::string CustomString (CustomStringLen)
+	void* CustomData (8)
+	int CurrentAnimation (4)
+	float CurrentFrameTime (4)
+	short GraphicBodyNameLen (2)
+	std::string GraphicBodyName (GraphicBodyNameLen)
+}
+
+BinaryDynamicActor : BinaryActor
+{
+	Vector Size (12)
+	Vector Vel (12)
+	Vector Force(12)
+	float Mass (4)
+}
+
+BinaryStaticActorSet : BinaryActor
+{
+	int HitSoundsNameNumber (1)
+	for( i : HitSoundsNameNumber )
+		short HitSoundsName[i]Len (2)
+		std::string HitSoundsName[i] (HitSoundsName[i]Len)
+	
+}
+
+
+
+
+[GraphicBody]
+
+
+
+
+
+
+
+
+

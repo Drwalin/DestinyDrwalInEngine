@@ -5,8 +5,9 @@ class Engine
 {
 private:
 	
-	ServerEngine * server;
-	ClientEngine * client;
+	// engine instance can be one of:
+	ServerEngine * server;		// defines engine instance as server
+	ClientEngine * client;		// defines engine instance as client
 	
 	World * world;
 	
@@ -15,31 +16,37 @@ private:
 	std::map < std::string, StaticActor * > physicsBody;
 	std::map < std::string, GraphicBody * > graphicBody;
 	std::map < std::string, Texture * > texture;
+	std::map < std::String, ObjectOBJ * > obj;
 	
 	unsigned char * threadsData;
-	int threadsDataLength;
+	int threadsNumber;
 	
-	float framesPerSecond;
-	int framesCounter;
-	int lastChecked
+	float framesPerSecond;			// real time
+	int framesCounter;				// real time
+	int lastFramesWereReset;		// real time ////////////////
+	
+	float timeScale;
+	float deltaTime;		// with timeScale
 	
 	FunctionVoidFloat * FunctionCustomDrawGUI;
 	FunctionVoidFloat * FunctionCustomInput;
 	
-	void InitOpenGL( int argc, char ** argv )
+	void InitOpenGL( int argc, char ** argv );
 	
 public:
 	
-	World * GetWorld();  const
+	World * GetWorld() const;
 	
 	int LoadPhysicsBody( const std::string fileName, const std::string name );
 	int LoadGraphicBody( const std::string fileName, const std::string name );
 	int LoadTexture( const std::string fileName, const std::string name );
 	int LoadSound( const std::string fileName, const std::string name );
+	int LoadOBJ( const std::string fileName, const std::string name );
 	
 	StaticActor * GetPhysicsBody( const std::string name ) const;
 	GraphicBody * GetGraphicBody( const std::string name ) const;
 	Texture * GetTexture( const std::string name ) const;
+	ObjectOBJ * GetOBJ( const std::string name ) const;
 	
 	
 	void SetFunctionCustomDrawGUI( FunctionVoidFloat * src );

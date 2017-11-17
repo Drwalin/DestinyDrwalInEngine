@@ -10,7 +10,6 @@ private:
 	Vector vel;
 	Vector bvel;
 	Vector force;
-	Vector bforce;
 	
 	AABB aabbCurrent;
 	
@@ -55,7 +54,12 @@ public:
 	virtual int GetBinary( char * binary ) const override;		// includes name and type (class), paste binary data in this pointer
 	virtual int GetBinaryLength() const override;				// includes name, type (class),
 	
+	virtual void Destroy() override;
+	
 	
 	DynamicActor();
 	virtual ~DynamicActor() override;
-}
+};
+
+
+

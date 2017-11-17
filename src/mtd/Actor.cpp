@@ -1,6 +1,11 @@
 
 #pragma once
 
+inline std::string & Actor::GetCustomString()
+{
+	return customString;
+}
+
 inline void ** Actor::GetCustomData()
 {
 	return &customData;

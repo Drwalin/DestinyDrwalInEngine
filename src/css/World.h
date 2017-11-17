@@ -16,6 +16,7 @@ private:
 	Collider collider;
 	
 	float timeScale;
+	float deltaTime;		// with timeScale
 	
 public:
 	

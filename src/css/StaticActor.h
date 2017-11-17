@@ -55,6 +55,8 @@ public:
 	virtual int GetBinary( char * binary ) const override;		// includes name and type (class), paste binary data in this pointer
 	virtual int GetBinaryLength() const override;				// includes name, type (class),
 	
+	virtual void Destroy() override;
+	
 	
 	StaticActor();
 	virtual ~StaticActor() override;

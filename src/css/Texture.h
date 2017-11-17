@@ -20,7 +20,7 @@ public:
 	
 	int Load( const std::string fileName, const std::string nameSrc, const int interpolationMode, const int mipMapsSrc );
 	
-	int Bind();
+	int Bind() const;
 	void Destroy();
 	
 	Texture();

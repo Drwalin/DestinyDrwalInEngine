@@ -6,7 +6,7 @@ class GraphicBodyInstance
 private:
 	
 	float currentFrameTime;
-	int currentFram;
+	int currentAnimation;
 	
 	GraphicBody * graphicBody;
 	
