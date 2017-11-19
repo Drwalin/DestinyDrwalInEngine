@@ -12,6 +12,7 @@ private:
 	std::map < std::string, Actor * > actor;
 	std::map < std::string, Camera * > camera;
 	std::map < std::string, Light * > light;
+	std::map < std::string, NavMesh * > navMesh;
 	
 	Collider collider;
 	
@@ -34,8 +35,10 @@ public:
 	Actor * SpawnDynamicActor( const std::string name, const std::string graphicBodyName, const Vector size );
 	Actor * SpawnTriggerVolumeActor( const std::string name, const Vector pos, const Vector size );
 	Actor * SpawnActorByTemplate( const Actor * src, const std::string name );
+	NavMesh * SpawnNavMesh( const std::string name );
 	
 	
+	NavMesh * GetNavMesh();
 	Camera * GetCamera( const std::string name );
 	Light * GetLight( const std::string name );
 	Actor * GetActor( const std::string name );
