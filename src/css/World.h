@@ -12,7 +12,8 @@ private:
 	std::map < std::string, Actor * > actor;
 	std::map < std::string, Camera * > camera;
 	std::map < std::string, Light * > light;
-	std::map < std::string, NavMesh * > navMesh;
+	NavMeshParent * navMeshParent;
+	std::map < std::string, NavMesh * > navMesh;		// instances of navMeshParent
 	
 	Collider collider;
 	

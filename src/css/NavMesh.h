@@ -35,6 +35,8 @@ private:
 	
 public:
 	
+	friend class NavMesh;
+	
 	bool operator < ( BaseNode src );
 	bool operator > ( BaseNode src );
 	bool operator == ( BaseNode src );
@@ -60,36 +62,94 @@ public:
 	~NavMeshPath();
 };
 
+class NavMeshPathFinderVetrtex
+{
+private:
+	long long int distanceFromBegin;
+	Node * cameFrom;
+	
+public:
+	
+	friend NavMesh;
+	
+	NavMeshPathFinderVetrtex();
+	~NavMeshPathFinderVetrtex();
+};
+
+class NavMeshVertexToCheck
+{
+private:
+	
+	long long int distanceToDestiny;
+	Node * node;
+	
+public:
+	
+	friend NavMesh;
+	
+	bool operator < ( const NavMeshVertexToCheck src ) const;		// compare distanceToDestiny (if equal compare node pointer)
+	
+	VertexToCheck();
+	~VertexToCheck();
+};
+
+class NavMeshParent
+{
+private:
+	
+	std::string name;
+	World * world;
+	
+	std::map < BaseNode, Node * > nodes;								// only in parent
+	
+	float scale;
+	float maximumDistanceNodeConnection;
+	
+	inline Node * GetNode( const BaseNode pos ) const;
+	inline Node * GetNode( const Vector pos ) const;
+	
+public:
+	
+	void AddConnection( const Vector a, const Vector b );
+	void UpdateConnections( const int count );
+	
+	void Init( const float acceptableDistanceAsOneNode, const float maximumDistanceNodeConnection );
+	void Destroy();
+	
+	NavMeshParent();
+	~NavMeshParent();
+};
+
 class NavMesh
 {
 private:
 	
 	std::string name;
 	World * world;
-	NavMesh * parent;
+	NavMeshParent * parent;
 	
-	std::map < Node *, int > distanceFromStart;		// on the path
-	std::map < BaseNode, Node * > nodes;			// only in parent
+	
+	std::vector < NavMeshVertexToCheck > verticesToCheck;				// must be sorted before taking vertex
+	std::map < Node *, NavMeshPathFinderVetrtex > checkedVertices;		// on the path
 	
 	Vector begin, end;
 	Node * beginNode, * endNode;
 	
-	float scale;
-	float maximumDistanceNodeConnection;
 	
+	inline void AddVertexToCheck( const Node * node );
+	inline Node * GetNextNodeToCheck();
 	
-	Node * GetNode( const BaseNode pos ) const;
-	Node * GetNode( const Vector pos ) const;
+	inline Node * GetNode( const BaseNode pos ) const;					// get from paretnm
+	inline Node * GetNode( const Vector pos ) const;					// get from parent
 	
 public:
 	
-	void AddConnection( const Vector a, const Vector b );
+	void AddConnection( const Vector a, const Vector b );		// adds to parent
 	
 	void BeginNewPath( const Vector a, const Vector b );
-	void UpdateConnections( const int count );
 	int UpdatePath( const int count );
 	
-	void Init( const float acceptableDistanceAsOneNode, const float maximumDistanceNodeConnection, const NavMesh * parent );
+	void Init( const float acceptableDistanceAsOneNode, const float maximumDistanceNodeConnection, const NavMeshParent * parent );
 	
 	void Destroy();
 	
