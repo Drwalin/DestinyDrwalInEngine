@@ -66,6 +66,7 @@ class NavMeshPathFinderVetrtex
 {
 private:
 	long long int distanceFromBegin;
+	long long int pathLength;
 	Node * cameFrom;
 	
 public:
@@ -81,7 +82,10 @@ class NavMeshVertexToCheck
 private:
 	
 	long long int distanceToDestiny;
+	long long int pathLength;
 	Node * node;
+	Node * cameFrom;
+	
 	
 public:
 	
@@ -128,9 +132,11 @@ private:
 	World * world;
 	NavMeshParent * parent;
 	
-	
-	std::vector < NavMeshVertexToCheck > verticesToCheck;				// must be sorted before taking vertex
-	std::map < Node *, NavMeshPathFinderVetrtex > checkedVertices;		// on the path
+	std::vector < AABB > excludeSpace;
+	//std::vector < AABB > lastResortSpace;									// can use graph node from these space only if there are no other path
+	//std::vector < NavMeshVertexToCheck > lastResortVerticesToCheck;		// must be sorted before taking vertex, use only: if( verticesToCheck.size() == 0 ){...}
+	std::vector < NavMeshVertexToCheck > verticesToCheck;					// must be sorted before taking vertex
+	std::map < Node *, NavMeshPathFinderVetrtex > checkedVertices;			// on the path
 	
 	Vector begin, end;
 	Node * beginNode, * endNode;
@@ -139,12 +145,19 @@ private:
 	inline void AddVertexToCheck( const Node * node );
 	inline Node * GetNextNodeToCheck();
 	
-	inline Node * GetNode( const BaseNode pos ) const;					// get from paretnm
-	inline Node * GetNode( const Vector pos ) const;					// get from parent
+	inline Node * GetNode( const BaseNode pos ) const;					// get from parent, create if exist
+	inline Node * GetNode( const Vector pos ) const;					// call: GetNode( BaseNode )
 	
 public:
 	
+	inline Node * GetClosestAvailableNode( const Vector pos ) const;
+	inline Node * GetClosestLastResortNode( const Vector pos ) const;
+	inline Node * GetClosestExcludedNode( const Vector pos ) const;
+	
 	void AddConnection( const Vector a, const Vector b );		// adds to parent
+	
+	void ExcludeSpace( const AABB aabb );
+	void IncludeSpace( const AABB aabb );
 	
 	void BeginNewPath( const Vector a, const Vector b );
 	int UpdatePath( const int count );
@@ -153,7 +166,7 @@ public:
 	
 	void Destroy();
 	
-	NavMeshPath GetPath() const;
+	NavMeshPath GetPath( bool & exist = false ) const;		// argument - setted on true if path does exist
 	
 	NavMesh();
 	~NavMesh();
