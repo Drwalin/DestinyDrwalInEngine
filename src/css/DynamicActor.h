@@ -15,6 +15,8 @@ private:
 	
 	float mass;
 	
+	Contact contact;
+	
 public:
 	
 	virtual void SetByTemplate( const Actor * src ) override;

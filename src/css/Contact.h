@@ -17,7 +17,7 @@ private:
 		Pair(){}
 	};
 	
-	std::map < Actor*, std::vector < Pair > > contact;
+	std::map < Actor *, std::vector < Pair > > contact;
 	Vector normal;
 	Vector barycenter;
 	float deviation;

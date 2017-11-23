@@ -112,6 +112,8 @@ private:
 	
 public:
 	
+	void DrawDebug() const;
+	
 	void AddNode( const Vector point );
 	void Update( const int count );
 	
@@ -149,6 +151,8 @@ private:
 	inline int IsNodeEnable( const Node * node ) const;					// returns diferent: is in [ excludedSpace ? lastResortSpace ]
 	
 public:
+	
+	void DrawDebug() const;
 	
 	inline Node * GetClosestAvailableNode( const Vector pos ) const;
 	inline Node * GetClosestLastResortNode( const Vector pos ) const;

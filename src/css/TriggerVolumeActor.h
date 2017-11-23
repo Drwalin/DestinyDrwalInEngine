@@ -5,7 +5,7 @@ class TriggerVolumeActor : public Actor
 {
 private:
 	
-	std::map < Actor*, bool > overlappingActors;
+	std::map < Actor*, bool > overlappingActors;		// includes only DynamicActors
 	
 	FunctionVoidActor onStepInFunction;
 	FunctionVoidActor onStepOutFunction;
@@ -17,10 +17,10 @@ public:
 	void SetOnStepOutFunction( FunctionVoidActor src );
 	void SetOverlappingFunction( FunctionVoidActor src );
 	
-	void Update( float deltaTime ) override;
+	virtual void Update( float deltaTime ) override;
 	
 	TriggerVolumeActor();
-	~TriggerVolumeActor();
+	virtual ~TriggerVolumeActor() override;
 };
 
 

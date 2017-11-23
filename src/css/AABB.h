@@ -26,11 +26,6 @@ public:
 	inline Vector GetSize() const;
 	inline Vector GetCenter() const;
 	
-	Contact GetContact( const AABB src ) const;
-	Contact GetContact( const Triangle src ) const;
-	Contact GetContact( const Triangle * src ) const;
-	Contact GetContact( const Vector beg, const Vector end ) const;
-	
 	inline void AddPoint( const Vector point );
 	
 	inline void SetMin( const Vector min_ );
