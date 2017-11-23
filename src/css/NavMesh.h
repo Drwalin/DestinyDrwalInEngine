@@ -46,7 +46,7 @@ public:
 	BaseNode( const BaseNode src );
 };
 
-class NavigationMeshPath
+class NavMeshPath
 {
 private:
 	
@@ -65,7 +65,6 @@ public:
 class NavMeshPathFinderVetrtex
 {
 private:
-	long long int distanceFromBegin;
 	long long int pathLength;
 	Node * cameFrom;
 	
@@ -81,17 +80,16 @@ class NavMeshVertexToCheck
 {
 private:
 	
-	long long int distanceToDestiny;
+	long long int distanceToDestiny;	// linear
 	long long int pathLength;
 	Node * node;
 	Node * cameFrom;
-	
 	
 public:
 	
 	friend NavMesh;
 	
-	bool operator < ( const NavMeshVertexToCheck src ) const;		// compare distanceToDestiny (if equal compare node pointer)
+	bool operator < ( const NavMeshVertexToCheck src ) const;		// compare distanceToDestiny (if equal compare node pointer as int)
 	
 	VertexToCheck();
 	~VertexToCheck();
@@ -114,8 +112,8 @@ private:
 	
 public:
 	
-	void AddConnection( const Vector a, const Vector b );
-	void UpdateConnections( const int count );
+	void AddNode( const Vector point );
+	void Update( const int count );
 	
 	void Init( const float acceptableDistanceAsOneNode, const float maximumDistanceNodeConnection );
 	void Destroy();
@@ -141,20 +139,20 @@ private:
 	Vector begin, end;
 	Node * beginNode, * endNode;
 	
+	NavMeshPath path;
 	
 	inline void AddVertexToCheck( const Node * node );
 	inline Node * GetNextNodeToCheck();
 	
 	inline Node * GetNode( const BaseNode pos ) const;					// get from parent, create if exist
-	inline Node * GetNode( const Vector pos ) const;					// call: GetNode( BaseNode )
+	inline Node * GetNode( const Vector pos ) const;					// returns: GetNode( BaseNode )
+	inline int IsNodeEnable( const Node * node ) const;					// returns diferent: is in [ excludedSpace ? lastResortSpace ]
 	
 public:
 	
 	inline Node * GetClosestAvailableNode( const Vector pos ) const;
 	inline Node * GetClosestLastResortNode( const Vector pos ) const;
 	inline Node * GetClosestExcludedNode( const Vector pos ) const;
-	
-	void AddConnection( const Vector a, const Vector b );		// adds to parent
 	
 	void ExcludeSpace( const AABB aabb );
 	void IncludeSpace( const AABB aabb );
