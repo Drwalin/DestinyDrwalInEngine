@@ -58,7 +58,7 @@ public:
 	void UpdateBinaryActor( const char * binary, const int len );
 	
 	void UpdateCollider();
-	void UpdateCollisions();
+	void UpdateCollision();
 	void Update( const float deltaTime );
 	
 	World();

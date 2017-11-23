@@ -5,11 +5,13 @@ class Engine
 {
 private:
 	
-	// engine instance can be one of:
+	// engine instance can be one of (or none):
 	ServerEngine * server;		// defines engine instance as server
 	ClientEngine * client;		// defines engine instance as client
 	
 	World * world;
+	
+	SoundEngine * soundEngine;
 	
 	std::string name;
 	
@@ -36,6 +38,7 @@ private:
 public:
 	
 	World * GetWorld() const;
+	SoundEngine * GetSoundEngine() const;
 	
 	int LoadPhysicsBody( const std::string fileName, const std::string name );
 	int LoadGraphicBody( const std::string fileName, const std::string name );
@@ -54,7 +57,7 @@ public:
 	
 	void MainLoop();
 	
-	Init( int argc, char ** argv, int hostMode );
+	void Init( int argc, char ** argv, int hostMode );
 	
 	Engine();
 	~Engine();
