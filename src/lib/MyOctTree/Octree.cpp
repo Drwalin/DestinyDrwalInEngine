@@ -63,7 +63,7 @@ inline void OcttreeNode<T>::Destroy()
 }
 
 template < class T >
-inline int OcttreeNode<T>::GetNodeNumber()
+inline octtreePosDataType OcttreeNode<T>::GetNodeNumber()
 {
 	int i = 1;
 	if( node[0][0][0] != NULL )
@@ -104,32 +104,32 @@ inline int OcttreeNode<T>::GetNodeNumber()
 }
 
 template < class T >
-inline void OcttreeNode<T>::Print( const int i )
+inline void OcttreeNode<T>::Print( const octtreePosDataType i )
 {
 	if( node[0][0][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "00\n" );
 		node[0][0][0] -> Print(i+1);
 	}
 	if( node[0][1][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "01\n" );
 		node[0][1][0] -> Print(i+1);
 	}
 	if( node[1][0][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "10\n" );
 		node[1][0][0] -> Print(i+1);
 	}
 	if( node[1][1][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "11\n" );
 		node[1][1][0] -> Print(i+1);
@@ -137,28 +137,28 @@ inline void OcttreeNode<T>::Print( const int i )
 	
 	if( node[0][0][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "00\n" );
 		node[0][0][1] -> Print(i+1);
 	}
 	if( node[0][1][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "01\n" );
 		node[0][1][1] -> Print(i+1);
 	}
 	if( node[1][0][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "10\n" );
 		node[1][0][1] -> Print(i+1);
 	}
 	if( node[1][1][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "11\n" );
 		node[1][1][1] -> Print(i+1);
@@ -166,11 +166,12 @@ inline void OcttreeNode<T>::Print( const int i )
 	
 	if( data != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( octtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
-		printf( "data: %i\n", data->size() );
+		printf( "data: OCTTREE_PRINTF_SPECIFIER\n", data->size() );
 	}
 }
+
 
 template < class T >
 inline void OcttreeNode<T>::AddToVboEdges( std::vector < Vector > & points, Vector offset, Vector size )
@@ -318,6 +319,7 @@ inline void OcttreeNode<T>::AddToVboEdges( std::vector < Vector > & points, Vect
 	return;
 }
 
+
 template < class T >
 OcttreeNode<T>::OcttreeNode()
 {
@@ -339,17 +341,27 @@ OcttreeNode<T>::~OcttreeNode()
 }
 
 template < class T >
-inline bool Octtree<T>::Exist( const int _x, const int _y, const int _z )
+inline bool Octtree<T>::PosNotEnable( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z )
 {
-	int i, fx, fy, fz;
+	return _x < 0 || _x >= 1<<lvl || _y < 0 || _y >= 1<<lvl || _z < 0 || _z >= 1<<lvl;
+}
+
+template < class T >
+inline bool Octtree<T>::Exist( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z )
+{
+	defaultValue = defaultValueCopy;
+	if( PosNotEnable( _x, _y, _z ) )
+		return false;
+	
+	octtreePosDataType i, fx, fy, fz;
 	
 	OcttreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
-		fz = int(_z>>(lvl-i))&1;
+		fx = octtreePosDataType(_x>>(lvl-i))&1;
+		fy = octtreePosDataType(_y>>(lvl-i))&1;
+		fz = octtreePosDataType(_z>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy][fz] != NULL )
 		{
 			currentNode = currentNode -> node[fx][fy][fz];
@@ -369,17 +381,21 @@ inline bool Octtree<T>::Exist( const int _x, const int _y, const int _z )
 }
 
 template < class T >
-inline void Octtree<T>::Set( const int _x, const int _y, const int _z, const T src )
+inline void Octtree<T>::Set( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z, const T src )
 {
+	defaultValue = defaultValueCopy;
+	if( PosNotEnable( _x, _y, _z ) )
+		return;
+	
 	int i, fx, fy, fz;
 	
 	OcttreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
-		fz = int(_z>>(lvl-i))&1;
+		fx = octtreePosDataType(_x>>(lvl-i))&1;
+		fy = octtreePosDataType(_y>>(lvl-i))&1;
+		fz = octtreePosDataType(_z>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy][fz] == NULL )
 		{
 			currentNode -> node[fx][fy][fz] = new OcttreeNode<T>;
@@ -396,17 +412,21 @@ inline void Octtree<T>::Set( const int _x, const int _y, const int _z, const T s
 }
 
 template < class T >
-inline T& Octtree<T>::Get( const int _x, const int _y, const int _z )
+inline T& Octtree<T>::Get( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z )
 {
-	int i, fx, fy, fz;
+	defaultValue = defaultValueCopy;
+	if( PosNotEnable( _x, _y, _z ) )
+		return defaultValue;
+	
+	octtreePosDataType i, fx, fy, fz;
 	
 	OcttreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
-		fz = int(_z>>(lvl-i))&1;
+		fx = octtreePosDataType(_x>>(lvl-i))&1;
+		fy = octtreePosDataType(_y>>(lvl-i))&1;
+		fz = octtreePosDataType(_z>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy][fz] == NULL )
 		{
 			currentNode -> node[fx][fy][fz] = new OcttreeNode<T>;
@@ -423,17 +443,21 @@ inline T& Octtree<T>::Get( const int _x, const int _y, const int _z )
 }
 
 template < class T >
-inline T& Octtree<T>::GetConst( const int _x, const int _y, const int _z )
+inline T& Octtree<T>::GetConst( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z )
 {
-	int i, fx, fy, fz;
+	defaultValue = defaultValueCopy;
+	if( PosNotEnable( _x, _y, _z ) )
+		return defaultValue;
+	
+	octtreePosDataType i, fx, fy, fz;
 	
 	OcttreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
-		fz = int(_z>>(lvl-i))&1;
+		fx = octtreePosDataType(_x>>(lvl-i))&1;
+		fy = octtreePosDataType(_y>>(lvl-i))&1;
+		fz = octtreePosDataType(_z>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy][fz] != NULL )
 		{
 			currentNode = currentNode -> node[fx][fy][fz];
@@ -453,18 +477,22 @@ inline T& Octtree<T>::GetConst( const int _x, const int _y, const int _z )
 }
 
 template < class T >
-inline void Octtree<T>::Erase( const int _x, const int _y, const int _z )
+inline void Octtree<T>::Erase( const octtreePosDataType _x, const octtreePosDataType _y, const octtreePosDataType _z )
 {
-	int i, j, k, fx, fy, fz, fast, last = 0, lx = 0, ly = 0, lz = 0;
+	defaultValue = defaultValueCopy;
+	if( PosNotEnable( _x, _y, _z ) )
+		return;
+	
+	octtreePosDataType i, j, k, fx, fy, fz, fast, last = 0, lx = 0, ly = 0, lz = 0;
 	
 	OcttreeNode<T> * currentNode = &node;
 	OcttreeNode<T> * lastNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(((unsigned int)(_x))>>(lvl-i))&1;
-		fy = int(((unsigned int)(_y))>>(lvl-i))&1;
-		fz = int(((unsigned int)(_z))>>(lvl-i))&1;
+		fx = octtreePosDataType(_x>>(lvl-i))&1;
+		fy = octtreePosDataType(_y>>(lvl-i))&1;
+		fz = octtreePosDataType(_z>>(lvl-i))&1;
 		
 		fast = 0;
 		fast += ( currentNode->node[0][0][0] != NULL ) ? 1 : 0;
@@ -508,7 +536,7 @@ inline void Octtree<T>::Erase( const int _x, const int _y, const int _z )
 }
 
 template < class T >
-inline int Octtree<T>::GetNumberOfNodes()
+inline octtreePosDataType Octtree<T>::GetNumberOfNodes()
 {
 	return node.GetNodeNumber();
 }
@@ -521,16 +549,28 @@ inline void Octtree<T>::Print()
 }
 
 template < class T >
+inline octtreePosDataType Octtree<T>::GetSpaceSizeAxes()
+{
+	return ((octtreePosDataType)(1))<<lvl;
+}
+
+template < class T >
 inline void Octtree<T>::Clear()
 {
 	node.Destroy();
 }
 
 template < class T >
-inline void Octtree<T>::Init( const int levels_, const T defaultValue_ )
+inline void Octtree<T>::Init( const octtreePosDataType levels_, const T defaultValue_ )
 {
-	lvl = levels_;
+	if( levels_ > 62 )
+		lvl = 62;
+	else if( levels_ == 0 )
+		lvl = 1;
+	else
+		lvl = levels_;
 	defaultValue = defaultValue_;
+	defaultValueCopy = defaultValue;
 }
 
 template < class T >

@@ -153,23 +153,7 @@ void World::DestroyActor( const std::string name )
 
 
 
-
-
-World::World()
-{
-	engine = NULL;
-	
-	name = "";
-	navMeshParent = NULL;
-	
-	collider = NULL;
-	pointParticle = NULL;
-	
-	timeScale = 1.0f;
-	deltaTime = 0.01f;
-}
-
-World::~World()
+void World::Destroy()
 {
 	engine = NULL;
 	
@@ -241,6 +225,25 @@ World::~World()
 	
 	timeScale = 0.0f;
 	deltaTime = 0.0f;
+}
+
+World::World()
+{
+	engine = NULL;
+	
+	name = "";
+	navMeshParent = NULL;
+	
+	collider = NULL;
+	pointParticle = NULL;
+	
+	timeScale = 1.0f;
+	deltaTime = 0.01f;
+}
+
+World::~World()
+{
+	Destroy();
 }
 
 

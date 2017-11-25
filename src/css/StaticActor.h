@@ -23,8 +23,7 @@ public:
 	virtual void DrawDebug() const override;
 	virtual void Draw() const override;
 	
-	virtual AABB GetPhysicsAABB() const override;
-	virtual AABB GetGraphicAABB() const override;
+	virtual AABB GetAABB() const override;
 	virtual float GetHeight() const override;
 	
 	virtual Vector GetForwardVector() const override;

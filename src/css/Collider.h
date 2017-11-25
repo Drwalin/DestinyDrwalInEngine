@@ -9,14 +9,14 @@ private:
 	
 	Octtree < std::map < Actor*, bool > > octtree;
 	std::map < Actor*, bool > outsideActors;
-	std::map < Actor*, AABB > actorAABB;
+	std::map < Actor*, AABBint > actorAABB;
 	
 	AABB aabb;
 	
 public:
 	
 	void AddActor( const Actor * actor );
-	void DeleteActor( const Actor * actor );
+	void DestroyActor( const Actor * actor );
 	void GetActor( const AABB aabb, std::map < Actor *, bool > & actors ) const;		// std::map actors - must be empty
 	
 	void Clear();

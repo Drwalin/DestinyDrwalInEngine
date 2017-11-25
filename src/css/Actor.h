@@ -31,8 +31,7 @@ public:
 	virtual void DrawDebug() const=0;
 	virtual void Draw() const=0;
 	
-	virtual AABB GetPhysicsAABB() const=0;
-	virtual AABB GetGraphicAABB() const=0;
+	virtual AABB GetAABB() const=0;
 	virtual float GetHeight() const=0;
 	
 	virtual Vector GetForwardVector() const=0;

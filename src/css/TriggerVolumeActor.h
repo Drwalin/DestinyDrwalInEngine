@@ -11,11 +11,15 @@ private:
 	FunctionVoidActor onStepOutFunction;
 	FunctionVoidActor OverlappingFunction;
 	
+	AABB aabb;
+	
 public:
 	
 	void SetOnStepInFunction( FunctionVoidActor src );
 	void SetOnStepOutFunction( FunctionVoidActor src );
 	void SetOverlappingFunction( FunctionVoidActor src );
+	
+	virtual AABB GetAABB() const override;
 	
 	virtual void Update( float deltaTime ) override;
 	

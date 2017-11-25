@@ -61,41 +61,41 @@ int QuadtreeNode<T>::GetNodeNumber()
 }
 
 template < class T >
-void QuadtreeNode<T>::Print( const int i )
+void QuadtreeNode<T>::Print( const quadtreePosDataType i )
 {
 	if( node[0][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( quadtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "00\n" );
 		node[0][0] -> Print(i+1);
 	}
 	if( node[0][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( quadtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "01\n" );
 		node[0][1] -> Print(i+1);
 	}
 	if( node[1][0] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( quadtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "10\n" );
 		node[1][0] -> Print(i+1);
 	}
 	if( node[1][1] != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( quadtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
 		printf( "11\n" );
 		node[1][1] -> Print(i+1);
 	}
 	if( data != NULL )
 	{
-		for( int a = 0; a <= i; ++a )
+		for( quadtreePosDataType a = 0; a <= i; ++a )
 			printf( " " );
-		printf( "data: %i\n", *data );
+		printf( "data: QUADTREE_PRINTF_SPECIFIER\n", *data );
 	}
 }
 
@@ -116,16 +116,17 @@ QuadtreeNode<T>::~QuadtreeNode()
 }
 
 template < class T >
-inline bool Quadtree<T>::Exist( const int _x, const int _y )
+inline bool Quadtree<T>::Exist( const quadtreePosDataType _x, const quadtreePosDataType _y )
 {
-	int i, fx, fy;
+	defaultValue = defaultValueCopy;
+	quadtreePosDataType i, fx, fy;
 	
 	QuadtreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
+		fx = quadtreePosDataType(_x>>(lvl-i))&1;
+		fy = quadtreePosDataType(_y>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy] != NULL )
 		{
 			currentNode = currentNode -> node[fx][fy];
@@ -145,16 +146,17 @@ inline bool Quadtree<T>::Exist( const int _x, const int _y )
 }
 
 template < class T >
-inline void Quadtree<T>::Set( const int _x, const int _y, const T src )
+inline void Quadtree<T>::Set( const quadtreePosDataType _x, const quadtreePosDataType _y, const T src )
 {
-	int i, fx, fy;
+	defaultValue = defaultValueCopy;
+	quadtreePosDataType i, fx, fy;
 	
 	QuadtreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
+		fx = quadtreePosDataType(_x>>(lvl-i))&1;
+		fy = quadtreePosDataType(_y>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy] == NULL )
 		{
 			currentNode -> node[fx][fy] = new QuadtreeNode<T>;
@@ -171,16 +173,17 @@ inline void Quadtree<T>::Set( const int _x, const int _y, const T src )
 }
 
 template < class T >
-inline T& Quadtree<T>::Get( const int _x, const int _y )
+inline T& Quadtree<T>::Get( const quadtreePosDataType _x, const quadtreePosDataType _y )
 {
-	int i, fx, fy;
+	defaultValue = defaultValueCopy;
+	quadtreePosDataType i, fx, fy;
 	
 	QuadtreeNode<T> * currentNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(_x>>(lvl-i))&1;
-		fy = int(_y>>(lvl-i))&1;
+		fx = quadtreePosDataType(_x>>(lvl-i))&1;
+		fy = quadtreePosDataType(_y>>(lvl-i))&1;
 		if( currentNode -> node[fx][fy] != NULL )
 		{
 			currentNode = currentNode -> node[fx][fy];
@@ -200,17 +203,18 @@ inline T& Quadtree<T>::Get( const int _x, const int _y )
 }
 
 template < class T >
-inline void Quadtree<T>::Erase( const int _x, const int _y )
+inline void Quadtree<T>::Erase( const quadtreePosDataType _x, const quadtreePosDataType _y )
 {
-	int i, j, k, fx, fy, fast, last = 0, lx = 0, ly = 0;
+	defaultValue = defaultValueCopy;
+	quadtreePosDataType i, j, k, fx, fy, fast, last = 0, lx = 0, ly = 0;
 	
 	QuadtreeNode<T> * currentNode = &node;
 	QuadtreeNode<T> * lastNode = &node;
 	
 	for( i = 0; i < lvl; ++i )
 	{
-		fx = int(((unsigned int)(_x))>>(lvl-i))&1;
-		fy = int(((unsigned int)(_y))>>(lvl-i))&1;
+		fx = quadtreePosDataType(_x>>(lvl-i))&1;
+		fy = quadtreePosDataType(_y>>(lvl-i))&1;
 		
 		fast = 0;
 		fast += ( currentNode->node[0][0] != NULL ) ? 1 : 0;
@@ -248,7 +252,7 @@ inline void Quadtree<T>::Erase( const int _x, const int _y )
 }
 
 template < class T >
-inline int Quadtree<T>::GetNumberOfNodes()
+inline quadtreePosDataType Quadtree<T>::GetNumberOfNodes()
 {
 	return node.GetNodeNumber();
 }
@@ -261,16 +265,23 @@ inline void Quadtree<T>::Print()
 }
 
 template < class T >
+inline quadtreePosDataType Quadtree<T>::GetSpaceSizeAxes()
+{
+	return ((quadtreePosDataType)(1))<<lvl;
+}
+
+template < class T >
 inline void Quadtree<T>::Clear()
 {
 	node.Destroy();
 }
 
 template < class T >
-inline void Quadtree<T>::Init( const int levels_, const T defaultValue_ )
+inline void Quadtree<T>::Init( const quadtreePosDataType levels_, const T defaultValue_ )
 {
 	lvl = levels_;
 	defaultValue = defaultValue_;
+	defaultValueCopy = defaultValue;
 }
 
 template < class T >

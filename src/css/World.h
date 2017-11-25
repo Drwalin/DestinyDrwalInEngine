@@ -75,6 +75,8 @@ public:
 	void UpdateCollision();
 	void Update( const float deltaTime );
 	
+	void Destroy();
+	
 	World();
 	~World();
 };

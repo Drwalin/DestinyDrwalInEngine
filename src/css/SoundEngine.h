@@ -3,6 +3,7 @@
 
 class SoundEngine
 {
+private:
 	irrklang::ISoundEngine * SEngine;
 	
 	class SoundSource
