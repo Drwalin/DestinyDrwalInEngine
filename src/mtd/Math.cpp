@@ -26,5 +26,32 @@ float Math::Abs( const float a )
 	return ( a < 0.0f ) ? -a : a;
 }
 
+unsigned long long int Math::Log( const unsigned long long int base, const unsigned long long int a )
+{
+	unsigned long long int val = a, dst = 0;
+	
+	while( val )
+	{
+		val /= base;
+		++dst;
+	}
+	return dst;
+}
+
+static float Log( const float base, const float a )
+{
+	if( base <= 0.0f )
+		return 0.0f;
+	if( a <= 0.0f )
+		return 0.0f;
+	float val = a, dst = 0.0f;;
+	while( val > base )
+	{
+		val /= base;
+		dst += 1.0f
+	}
+	return dst + pow( val / base, 1.5 );
+}
+
 
 

@@ -5,21 +5,27 @@ class Collider
 {
 private:
 	
-	Octtree < std::vector < Actor* > > octtree;
-	std::vector < Actor* > outsideActors;
+	World * world;
+	
+	Octtree < std::map < Actor*, bool > > octtree;
+	std::map < Actor*, bool > outsideActors;
+	std::map < Actor*, AABB > actorAABB;
 	
 	AABB aabb;
 	
 public:
 	
-	void AddActor( Actor * actor );
-	void GetActor( AABB aabb, std::map < Actor*, bool > & actors ) const;		// std::map actors - must be empty
+	void AddActor( const Actor * actor );
+	void DeleteActor( const Actor * actor );
+	void GetActor( const AABB aabb, std::map < Actor *, bool > & actors ) const;		// std::map actors - must be empty
 	
 	void Clear();
 	
 	AABB GetAABB() const;
 	Vector GetSize() const;
-	void Init( const AABB aabb, const int levels );
+	void Init( const AABB aabb, const int levels, const World * world );
+	
+	void Destroy();
 	
 	Collider();
 	~Collider();

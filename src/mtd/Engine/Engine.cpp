@@ -51,6 +51,50 @@ ObjectOBJ * Engine::GetOBJ( const std::string name ) const
 	return NULL;
 }
 
+void Engine::DestroyPhysicsBody( const std::string name )
+{
+	auto it = physicsBody.find( name );
+	if( it != physicsBody.end() )
+	{
+		it->second->Destroy();
+		delete it->second;
+		physicsBody.erase( it );
+	}
+}
+
+void Engine::DestroyGraphicBody( const std::string name )
+{
+	auto it = graphicBody.find( name );
+	if( it != graphicBody.end() )
+	{
+		it->second->Destroy();
+		delete it->second;
+		graphicBody.erase( it );
+	}
+}
+
+void Engine::DestroyTexture( const std::string name )
+{
+	auto it = texture.find( name );
+	if( it != texture.end() )
+	{
+		it->second->Destroy();
+		delete it->second;
+		texture.erase( it );
+	}
+}
+
+void Engine::DestroyOBJ( const std::string name )
+{
+	auto it = obj.find( name );
+	if( it != obj.end() )
+	{
+		it->second->Destroy();
+		delete it->second;
+		obj.erase( it );
+	}
+}
+void Engine::DestroySound( const std::string name );
 
 void Engine::SetFunctionCustomDrawGUI( FunctionVoidFloat * src )
 {
@@ -64,7 +108,7 @@ void Engine::SetFunctionCustomInput( FunctionVoidFloat * src )
 
 void Engine::MainLoop();
 
-void Engine::Init( int argc, char ** argv, int hostMode );
+int Engine::Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );
 
 Engine::Engine()
 {
@@ -130,6 +174,7 @@ Engine::~Engine()
 			it->second = NULL;
 		}
 	}
+	physicsBody.clear();
 	
 	for( auto it = graphicBody.begin(); it != graphicBody.end(); *it++ )
 	{
@@ -140,6 +185,7 @@ Engine::~Engine()
 			it->second = NULL;
 		}
 	}
+	graphicBody.clear();
 	
 	for( auto it = texture.begin(); it != texture.end(); *it++ )
 	{
@@ -150,6 +196,7 @@ Engine::~Engine()
 			it->second = NULL;
 		}
 	}
+	texture.clear();
 	
 	for( auto it = obj.begin(); it != obj.end(); *it++ )
 	{
@@ -160,6 +207,7 @@ Engine::~Engine()
 			it->second = NULL;
 		}
 	}
+	obj.clear();
 	
 	if( threadsData )
 	{

@@ -36,7 +36,7 @@ ONEPointParticle::~ONEPointParticle()
 
 
 
-inline void PointParticle::Update( float time )
+void PointParticle::Update( float time )
 {
 	if( particle.size() > 0 )
 	{
@@ -52,16 +52,16 @@ inline void PointParticle::Update( float time )
 			}
 		}
 	}
-	--sortAfter;
-	if( sortAfter <= 0 )
+	++sortAfter;
+	if( sortAfter >= updateAfterFrames )
 	{
-		sortAfter = 3;
+		sortAfter = 0;
 		if( particle.size() > 1 )
 			std::sort( particle.begin(), particle.end() );
 	}
 }
 
-inline void PointParticle::AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char a, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count )
+void PointParticle::AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char a, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count )
 {
 	int i;
 	int col;
@@ -98,7 +98,7 @@ inline void PointParticle::AddParticle( Vector origin, float originrandomization
 	}
 }
 
-inline void PointParticle::Draw() const
+void PointParticle::Draw() const
 {
 	VBO vbo;
 	for( int i = 0; i < particle.size(); ++i )
@@ -109,14 +109,23 @@ inline void PointParticle::Draw() const
 	vbo.Clear();
 }
 
+int PointParticle::Init( const int updateAfterFrames )
+{
+	this->updateAfterFrames = updateAfterFrames;
+}
+
 PointParticle::PointParticle()
 {
 	particle.resize( 0 );
+	sortAfter = 0;
+	updateAfterFrames = 3;
 }
 
 PointParticle::~PointParticle()
 {
 	particle.resize( 0 );
+	sortAfter = 0;
+	updateAfterFrames = 0;
 }
 
 

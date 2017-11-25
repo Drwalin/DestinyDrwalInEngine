@@ -15,10 +15,10 @@ private:
 	
 	std::string name;
 	
-	std::map < std::string, StaticActor * > physicsBody;
-	std::map < std::string, GraphicBody * > graphicBody;
-	std::map < std::string, Texture * > texture;
-	std::map < std::String, ObjectOBJ * > obj;
+	std::map < std::string, StaticActor* > physicsBody;
+	std::map < std::string, GraphicBody* > graphicBody;
+	std::map < std::string, Texture* > texture;
+	std::map < std::String, ObjectOBJ* > obj;
 	
 	unsigned char * threadsData;
 	int threadsNumber;
@@ -51,13 +51,21 @@ public:
 	Texture * GetTexture( const std::string name ) const;
 	ObjectOBJ * GetOBJ( const std::string name ) const;
 	
+	void DestroyPhysicsBody( const std::string name );
+	void DestroyGraphicBody( const std::string name );
+	void DestroyTexture( const std::string name );
+	void DestroySound( const std::string name );
+	void DestroyOBJ( const std::string name );
+	
 	
 	void SetFunctionCustomDrawGUI( FunctionVoidFloat * src );
 	void SetFunctionCustomInput( FunctionVoidFloat * src );
 	
 	void MainLoop();
 	
-	void Init( int argc, char ** argv, int hostMode );
+	int Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );
+	
+	void Destroy();
 	
 	Engine();
 	~Engine();

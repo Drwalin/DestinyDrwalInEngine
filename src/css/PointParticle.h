@@ -23,13 +23,18 @@ public:
 class PointParticle
 {
 private:
+	
 	std::vector < ONEPointParticle > particle;
-	int sortAfter;
+	unsigned int sortAfter;
+	unsigned int updateAfterFrames;
 	
 public:
-	inline void Update( float time );
-	inline void AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char a, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count );
-	inline void Draw() const;
+	
+	void Update( float time );
+	void AddParticle( Vector origin, float originrandomization, Vector vel, Vector accelerate, float randomization, unsigned char r,unsigned char g, unsigned char b, unsigned char a, unsigned char rrand,unsigned char grand, unsigned char brand, float lifetime, float randomizationlifetime, int count );
+	void Draw() const;
+	
+	int Init( const unsigned int updateAfterFrames );
 	
 	PointParticle();
 	~PointParticle();

@@ -19,6 +19,8 @@ public:
 	
 	virtual void Update( float deltaTime ) override;
 	
+	virtual bool GetRayTrace( const Vector beg, const Vector end, Vector & point, Vector & normal ) override;
+	
 	TriggerVolumeActor();
 	virtual ~TriggerVolumeActor() override;
 };

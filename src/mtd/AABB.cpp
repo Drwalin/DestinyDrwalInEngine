@@ -81,25 +81,6 @@ inline Vector AABB::GetCenter() const
 	return (min+max) * 0.5f;
 }
 
-Contact AABB::GetContact( const AABB src ) const
-{
-	
-}
-
-Contact AABB::GetContact( const Triangle src ) const
-{
-	
-}
-
-Contact AABB::GetContact( const Triangle * src ) const
-{
-	
-}
-
-Contact GetContact( const Vector beg, const Vector end ) const
-{
-	
-}
 
 inline void AABB::AddPoint( const Vector point )
 {

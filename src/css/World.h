@@ -3,32 +3,41 @@
 
 class World
 {
+public:
+	
+	static constexpr float MinimumTimeScale = 0.001f;
+	
 private:
 	
 	Engine * engine;
 	
 	std::string name;
 	
-	std::map < std::string, Actor * > actor;
-	std::map < std::string, Camera * > camera;
-	std::map < std::string, Light * > light;
+	std::map < std::string, Actor* > actor;
+	std::map < std::string, Camera* > camera;
+	std::map < std::string, Light* > light;
+	std::map < std::string, NavMesh* > navMesh;		// instances of navMeshParent
 	NavMeshParent * navMeshParent;
-	std::map < std::string, NavMesh * > navMesh;		// instances of navMeshParent
 	
-	Collider collider;
+	Collider * collider;
+	
+	PointParticle * pointParticle;
 	
 	float timeScale;
 	float deltaTime;		// with timeScale
 	
 public:
 	
-	void InitWorld( const AABB aabb, const std::string name );
+	Contact RayTrace( const Vector beg, const Vector end, std::map < Actor*, bool > & ignoreActors );
+	
+	int InitWorld( const AABB aabb, const std::string name, Engine * engine, const unsigned int frequencyParticleUpdate );
 	
 	void PlaySound( const std::string name, const float volume );
 	void PlaySound( const std::string name, const Vector origin );
 	void PlaySound( const std::string name, const Vector origin, const float minDistance );
 	
-	// void SpawnParticles(...);
+	PointParticle * ParticleSpawner();
+	
 	
 	Camera * SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight );
 	Light * SpawnLight( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int lightMapWidth, const int lightMapHeight );
@@ -38,17 +47,22 @@ public:
 	Actor * SpawnActorByTemplate( const Actor * src, const std::string name );
 	NavMesh * SpawnNavMesh( const std::string name );
 	
+	NavMeshParent * GetNavMeshParent() const;
+	NavMesh * GetNavMesh( const std::string name ) const;
+	Camera * GetCamera( const std::string name ) const;
+	Light * GetLight( const std::string name ) const;
+	Actor * GetActor( const std::string name ) const;
 	
-	NavMesh * GetNavMesh();
-	Camera * GetCamera( const std::string name );
-	Light * GetLight( const std::string name );
-	Actor * GetActor( const std::string name );
+	void GetActors( const AABB aabb, std::map < Actor*, bool > & actors ) const;
 	
+	float GetDeltaTime() const;
+	float GetTimeScale() const;
+	void SetTimeScale( const float val );
+	
+	void DestroyNavMesh( const std::string name );
 	void DestroyCamera( const std::string name );
 	void DestroyLight( const std::string name );
 	void DestroyActor( const std::string name );
-	
-	void GetActors( const AABB aabb, std::map < Actor *, bool > & actors ) const;
 	
 	void DrawDebug() const;
 	void Draw() const;

@@ -63,6 +63,8 @@ public:
 	virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data at this pointer
 	virtual int GetBinaryLength() const=0;				// includes name, type (class),
 	
+	virtual bool GetRayTrace( const Vector beg, const Vector end, Vector & point, Vector & normal )=0;
+	
 	
 	static bool IsBinaryTriggerVolumeActor( const char * binary, const int len );
 	static bool IsBinaryDynamicActor( const char * binary, const int len );
