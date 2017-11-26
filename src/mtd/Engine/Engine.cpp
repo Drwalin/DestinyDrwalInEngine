@@ -13,11 +13,11 @@ SoundEngine * Engine::GetSoundEngine() const
 	return soundEngine;
 }
 
-int Engine::LoadPhysicsBody( const std::string fileName, const std::string name );
-int Engine::LoadGraphicBody( const std::string fileName, const std::string name );
-int Engine::LoadTexture( const std::string fileName, const std::string name );
-int Engine::LoadSound( const std::string fileName, const std::string name );
-int Engine::LoadOBJ( const std::string fileName, const std::string name );
+int Engine::LoadPhysicsBody( const std::string fileName, const std::string name );/////////////////////////////////////////////////
+int Engine::LoadGraphicBody( const std::string fileName, const std::string name );/////////////////////////////////////////////////
+int Engine::LoadTexture( const std::string fileName, const std::string name );/////////////////////////////////////////////////////
+int Engine::LoadSound( const std::string fileName, const std::string name );///////////////////////////////////////////////////////
+int Engine::LoadOBJ( const std::string fileName, const std::string name );/////////////////////////////////////////////////////////
 
 StaticActor * Engine::GetPhysicsBody( const std::string name ) const
 {
@@ -94,7 +94,7 @@ void Engine::DestroyOBJ( const std::string name )
 		obj.erase( it );
 	}
 }
-void Engine::DestroySound( const std::string name );
+void Engine::DestroySound( const std::string name );/////////////////////////////////////////////////////////////////////
 
 void Engine::SetFunctionCustomDrawGUI( FunctionVoidFloat * src )
 {
@@ -106,35 +106,11 @@ void Engine::SetFunctionCustomInput( FunctionVoidFloat * src )
 	FunctionCustomInput = src;
 }
 
-void Engine::MainLoop();
+void Engine::MainLoop();/////////////////////////////////////////////////////////////////////////////////////////////////
 
-int Engine::Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );
+int Engine::Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Engine::Engine()
-{
-	server = NULL;
-	client = NULL;
-	
-	world = NULL;
-	soundEngine = NULL;
-	
-	name = "";
-	
-	threadsData = NULL;
-	threadsNumber = 0;
-	
-	framesPerSecond = 0.01f;
-	framesCounter = 0;
-	lastFramesWereReset = 0;
-	
-	timeScale = 1.0f;
-	deltaTime = 0.01f;		// with timeScale
-	
-	FunctionCustomDrawGUI = NULL;
-	FunctionCustomInput = NULL;
-}
-
-Engine::~Engine()
+void Engine::Destroy()
 {
 	if( server )
 	{
@@ -221,10 +197,39 @@ Engine::~Engine()
 	lastFramesWereReset = 0;
 	
 	timeScale = 0.0f;
-	deltaTime = 0.0f;		// with timeScale
+	deltaTime = 0.0f;
 	
 	FunctionVoidFloat * FunctionCustomDrawGUI;
 	FunctionVoidFloat * FunctionCustomInput;
+}
+
+Engine::Engine()
+{
+	server = NULL;
+	client = NULL;
+	
+	world = NULL;
+	soundEngine = NULL;
+	
+	name = "";
+	
+	threadsData = NULL;
+	threadsNumber = 0;
+	
+	framesPerSecond = 0.01f;
+	framesCounter = 0;
+	lastFramesWereReset = 0;
+	
+	timeScale = 1.0f;
+	deltaTime = 0.01f;		// with timeScale
+	
+	FunctionCustomDrawGUI = NULL;
+	FunctionCustomInput = NULL;
+}
+
+Engine::~Engine()
+{
+	Destroy();
 }
 
 

@@ -1,10 +1,7 @@
 
 #pragma once
 
-void DrawDebug() const
-{
-	
-}
+void DrawDebug() const;////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 inline float GetVolume() const
 {
@@ -32,6 +29,14 @@ inline AABB AABB::operator + ( const Vector src ) const
 inline AABB AABB::operator - ( const Vector src ) const
 {
 	return AABB( min-src, max-src );
+}
+
+inline bool AABB::IsPointInsie( const Vector p ) const
+{
+	if( p >= min )
+		if( p <= max )
+			return true;
+	return false;
 }
 
 inline bool AABB::SharedPart( const AABB a, const AABB b, AABB & dst )

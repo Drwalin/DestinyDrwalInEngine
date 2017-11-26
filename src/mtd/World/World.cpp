@@ -23,13 +23,13 @@ PointParticle * World::ParticleSpawner()
 	return pointParticle;
 }
 
-Camera * World::SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight );
-Light * World::SpawnLight( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int lightMapWidth, const int lightMapHeight );
-Actor * World::SpawnStaticActor( const std::string name, const std::string graphicBodyName, const std::string physicsBodyName );
-Actor * World::SpawnDynamicActor( const std::string name, const std::string graphicBodyName, const Vector size );
-Actor * World::SpawnTriggerVolumeActor( const std::string name, const Vector pos, const Vector size );
-Actor * World::SpawnActorByTemplate( const Actor * src, const std::string name );
-NavMesh * World::SpawnNavMesh( const std::string name );
+Camera * World::SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight );/////////////////////////////////////////////
+Light * World::SpawnLight( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int lightMapWidth, const int lightMapHeight );/////////////////////////////////////////////
+Actor * World::SpawnStaticActor( const std::string name, const std::string graphicBodyName, const std::string physicsBodyName );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Actor * World::SpawnDynamicActor( const std::string name, const std::string graphicBodyName, const Vector size );//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Actor * World::SpawnTriggerVolumeActor( const std::string name, const Vector pos, const Vector size );/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Actor * World::SpawnActorByTemplate( const Actor * src, const std::string name );//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+NavMesh * World::SpawnNavMesh( const std::string name );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 NavMesh * World::GetNavMesh( const std::string name ) const
 {
@@ -152,6 +152,25 @@ void World::DestroyActor( const std::string name )
 
 
 
+void World::PausePhysics()
+{
+	physicsPaused = true;
+}
+
+void World::StartPhysics()
+{
+	physicsPaused = false;
+}
+
+void World::PauseGraphic()
+{
+	graphicPaused = true;
+}
+
+void World::StartGraphic()
+{
+	graphicPaused = false;
+}
 
 void World::Destroy()
 {
@@ -225,6 +244,9 @@ void World::Destroy()
 	
 	timeScale = 0.0f;
 	deltaTime = 0.0f;
+	
+	physicsPaused = false;
+	graphicPaused = false;
 }
 
 World::World()
@@ -239,6 +261,9 @@ World::World()
 	
 	timeScale = 1.0f;
 	deltaTime = 0.01f;
+	
+	physicsPaused = false;
+	graphicPaused = false;
 }
 
 World::~World()

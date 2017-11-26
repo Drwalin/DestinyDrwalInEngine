@@ -26,6 +26,9 @@ private:
 	float timeScale;
 	float deltaTime;		// with timeScale
 	
+	bool physicsPaused;
+	bool graphicPaused;
+	
 public:
 	
 	Contact RayTrace( const Vector beg, const Vector end, std::map < Actor*, bool > & ignoreActors );
@@ -74,6 +77,11 @@ public:
 	void UpdateCollider();
 	void UpdateCollision();
 	void Update( const float deltaTime );
+	
+	void PausePhysics();
+	void StartPhysics();
+	void PauseGraphic();
+	void StartGraphic();
 	
 	void Destroy();
 	

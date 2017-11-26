@@ -69,17 +69,71 @@ void Collider::DestroyActor( const Actor * actor )
 	}
 }
 
-void Collider::GetActor( const AABB aabb, std::map < Actor *, bool > & actors ) const;		// std::map actors - must be empty
+void Collider::GetActor( const AABB aabbSrc, std::map < Actor *, bool > & actors ) const
+{
+	if( outsideActors.size() > 0 )
+		actors.insert( outsideActors );
+	
+	AABB dst;
+	
+	if( AABB::SharedPart( this->aabb, aabbSrc, dst ) )
+	{
+		AABBint aabb( dst, this->aabb, octtree.GetSpaceSizeAxes() );
+		
+		long long int pos[3];
+		for( pos[0] = aabb.GetMinX(); pos[0] <= aabb.GetMaxX(); ++pos[0] )
+		{
+			for( pos[1] = aabb.GetMinY(); pos[1] <= aabb.GetMaxY(); ++pos10] )
+			{
+				for( pos[2] = aabb.GetMinZ(); pos[2] <= aabb.GetMaxZ(); ++pos[2] )
+				{
+					actors.insert( octtree.GetConst( pos[0], pos[1], pos[2] ) );
+				}
+			}
+		}
+	}
+}
 
-void Collider::Clear();
+void Collider::Clear()
+{
+	octtree.Clear();
+	outsideActors.clear();
+	actorAABB.clear();
+}
 
-AABB Collider::GetAABB() const;
-Vector Collider::GetSize() const;
-void Collider::Init( const AABB aabb, const int levels, const World * world );
+AABB Collider::GetAABB() const
+{
+	return aabb;
+}
 
-void Collider::Destroy();
+Vector Collider::GetSize() const
+{
+	return aabb.GetSize();
+}
 
-Collider::Collider();
+void Collider::Init( const AABB aabb, const int levels, const World * world )
+{
+	this->aabb = aabb;
+	{
+		std::map < Actor*, bool > temp;
+		octtree.Init( levels_, temp );
+	}
+	this->world = world;
+}
+
+void Collider::Destroy()
+{
+	Clear();
+	world = NULL;
+	aabb.Set( Vector( 0, 0, 0 ), Vector( 0, 0, 0 ) );
+}
+
+Collider::Collider()
+{
+	world = NULL;
+	aabb.Set( Vector( -1000, -1000, -1000 ), Vector( 1000, 1000, 1000 ) );
+}
+
 Collider::~Collider()
 {
 	Destroy();

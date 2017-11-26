@@ -18,6 +18,8 @@ public:
 	inline AABB operator + ( const Vector src ) const;
 	inline AABB operator - ( const Vector src ) const;
 	
+	inline bool IsPointInsie( const Vector p ) const;
+	
 	inline static bool SharedPart( const AABB a, const AABB b, AABB & dst );
 	inline bool SharedPart( const AABB src, AABB & dst ) const;
 	

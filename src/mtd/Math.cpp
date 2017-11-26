@@ -50,7 +50,8 @@ static float Log( const float base, const float a )
 		val /= base;
 		dst += 1.0f
 	}
-	return dst + pow( val / base, 1.5 );
+	val /= base;
+	return dst + pow( val, val );
 }
 
 
