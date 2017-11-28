@@ -29,7 +29,7 @@ public:
 	void PlaySound( const std::string name, const Vector origin, const float minDistance );
 	void PlaySound( const std::string name, const Vector origin );
 	
-	void Update();
+	void Update( const Vector pos, const Vector forward, const Vector up );
 	
 	void SetVolume( const float dst );
 	float GetVolume() const;

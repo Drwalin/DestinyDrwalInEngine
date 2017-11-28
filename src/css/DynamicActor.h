@@ -32,6 +32,7 @@ public:
 	virtual Vector GetUpVector() const override;
 	
 	virtual void Update( const float deltaTime ) override;
+	virtual void IdentityCollisionData() override;
 	
 	virtual void AddForce( const Vector src ) override;
 	virtual void AddVelocity( const Vector src ) override;

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#define CUSTOM_FULL_FVF ( D3DFVF_XYZ | D3DFVF_DIFFUSE | ((texture!=NULL)?D3DFVF_TEX1:0) )
+
 class VBO
 {
 private:
@@ -24,21 +26,32 @@ private:
 	};
 	
 	std::vector < Vertex > vertices;
-	std::vector < int > indices;
+	int verticesNumber;
 	
 	Texture * texture;	// NULL if do not want to use texture
 	
 	bool useNormals;
 	//bool useTexture;
-	bool useColors;
 	
-	int drawMode;		// if drawMode == drawModeNone then VBO wasn't generated
 	
+	int primitiveType;		// if primitiveType == drawModeNone then VBO wasn't generated
+	
+	
+	
+	bool generated;
 	//////////////////////
 	// some OpenGL data //
 	//////////////////////
+	LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+	void * pVoid;
+	
+	void ClearMemory();
 	
 public:
+	
+	D3DPRIMITIVETYPE GetPrimitiveType() const;
+	int GetVerticesCountPerPrimitive() const;
+	bool GeneratrdGood() const;
 	
 	int AddVertex( const Vector p, const Vector normal, const float uvx, const float uvy, const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a = 255 );
 	int AddVertex( const Vector p, const float uvx, const float uvy, const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a = 255 );
@@ -48,13 +61,11 @@ public:
 	int AddVertex( const Vector p, const float uvx, const float uvy );
 	int AddVertex( const Vector p, const Vector normal );
 	int AddVertex( const Vector p );
-	void AddIndice( const int id );
 	
-	void Generate( const int drawModeSrc, const Texture * textureSrc, const bool useNormalsSrc, const bool useColorsSrc );
+	void Generate( const int drawModeSrc, const Texture * textureSrc, const bool useNormalsSrc );
 	
 	void Draw() const;
 	
-	void ClearMemory();
 	void Destroy();
 	
 	VBO();

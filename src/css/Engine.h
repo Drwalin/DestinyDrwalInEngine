@@ -3,6 +3,12 @@
 
 class Engine
 {
+public:
+	
+	static int HostNone = 0;
+	static int HostClient = 1;
+	static int HostServer = 2;
+	
 private:
 	
 	// engine instance can be one of (or none):
@@ -15,10 +21,10 @@ private:
 	
 	std::string name;
 	
-	std::map < std::string, StaticActor* > physicsBody;
-	std::map < std::string, GraphicBody* > graphicBody;
-	std::map < std::string, Texture* > texture;
-	std::map < std::String, ObjectOBJ* > obj;
+	std::map < std::string, StaticActor * > physicsBody;
+	std::map < std::string, GraphicBody * > graphicBody;
+	std::map < std::string, Texture * > texture;
+	std::map < std::String, ObjectOBJ * > obj;
 	
 	unsigned char * threadsData;
 	int threadsNumber;
@@ -33,18 +39,24 @@ private:
 	FunctionVoidFloat * FunctionCustomDrawGUI;
 	FunctionVoidFloat * FunctionCustomInput;
 	
-	void InitOpenGL( int argc, char ** argv );
+	bool debug;
 	
 public:
+	
+	bool GetDebug() const;
+	void SetDebug( const bool debug );
 	
 	World * GetWorld() const;
 	SoundEngine * GetSoundEngine() const;
 	
-	int LoadPhysicsBody( const std::string fileName, const std::string name );
-	int LoadGraphicBody( const std::string fileName, const std::string name );
-	int LoadTexture( const std::string fileName, const std::string name );
-	int LoadSound( const std::string fileName, const std::string name );
-	int LoadOBJ( const std::string fileName, const std::string name );
+	void CallFunctionCustomDrawGUI();
+	void CallFunctionCustomInput( const float deltaTime );
+	
+	int LoadPhysicsBody( const std::string fileName, const std::string name );		// override if exist
+	int LoadGraphicBody( const std::string fileName, const std::string name );		// override if exist
+	int LoadTexture( const std::string fileName, const std::string name );			// override if exist
+	int LoadSound( const std::string fileName, const std::string name );			// override if exist
+	int LoadOBJ( const std::string fileName, const std::string name );				// override if exist
 	
 	StaticActor * GetPhysicsBody( const std::string name ) const;
 	GraphicBody * GetGraphicBody( const std::string name ) const;
@@ -61,7 +73,8 @@ public:
 	void SetFunctionCustomDrawGUI( FunctionVoidFloat * src );
 	void SetFunctionCustomInput( FunctionVoidFloat * src );
 	
-	void MainLoop();
+	void Iteration( const float deltaTime );
+	void Render();
 	
 	int Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );
 	

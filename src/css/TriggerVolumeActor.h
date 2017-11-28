@@ -22,6 +22,7 @@ public:
 	virtual AABB GetAABB() const override;
 	
 	virtual void Update( float deltaTime ) override;
+	virtual void IdentityCollisionData() override;
 	
 	virtual bool GetRayTrace( const Vector beg, const Vector end, Vector & point, Vector & normal ) override;
 	

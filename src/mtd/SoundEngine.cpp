@@ -47,22 +47,11 @@ void SoundEngine::DeInit()
 	samples.resize( 0 );
 }
 
-void SoundEngine::Update()
+void SoundEngine::Update( const Vector pos, const Vector forward, const Vector up )
 {
-	Vector pos;
-	pos = engineInstance->Object(0)->GetEyePos();
-	
-	VMatrix matrix;
-	
-	matrix.InitEmpty();
-	matrix.RotateY( engineInstance->Object(0)->see[0]-90.0f );
-	matrix.RotateX( -engineInstance->Object(0)->see[1] );
-	Vector look = matrix.GetVertex( SetVector( 0.0f, 0.0f, 1000.0f ) );
-	Vector up = matrix.GetVertex( SetVector( 0.0f, 1000.0f, 0.0f ) );
-	
 	irrklang::vec3df position( pos[0], pos[1], pos[2] );			// position of the listener
-	irrklang::vec3df lookDirection( look[0], look[1], look[2] );	// the direction the listener looks into
-	irrklang::vec3df velPerSecond(0,0,0);							// only relevant for doppler effects
+	irrklang::vec3df lookDirection( forward[0], forward[1], forward[2] );	// the direction the listener looks into
+	irrklang::vec3df velPerSecond( 0, 0, 0 );							// only relevant for doppler effects
 	irrklang::vec3df upVector( up[0], up[1], up[2] );				// where 'up' is in your 3D scene
 	
 	SEngine->setListenerPosition( position, lookDirection, velPerSecond, upVector );

@@ -23,17 +23,23 @@ private:
 	
 	PointParticle * pointParticle;
 	
+	Camera * mainCamera;
+	
 	float timeScale;
 	float deltaTime;		// with timeScale
 	
 	bool physicsPaused;
 	bool graphicPaused;
 	
+	void UpdateCollider();
+	void UpdateCollision();
+	void ReactCollision( const float deltaTime );
+	
 public:
 	
-	Contact RayTrace( const Vector beg, const Vector end, std::map < Actor*, bool > & ignoreActors );
+	Contact RayTrace( const Vector beg, const Vector end, std::map < Actor*, bool > & ignoreActors, bool returnAllIntersection = false );
 	
-	int InitWorld( const AABB aabb, const std::string name, Engine * engine, const unsigned int frequencyParticleUpdate );
+	int Init( const AABB aabb, const std::string name, Engine * engine, const unsigned int frequencyParticleUpdate );
 	
 	void PlaySound( const std::string name, const float volume );
 	void PlaySound( const std::string name, const Vector origin );
@@ -57,6 +63,10 @@ public:
 	Actor * GetActor( const std::string name ) const;
 	
 	void GetActors( const AABB aabb, std::map < Actor*, bool > & actors ) const;
+	void GetActors( const AABB aabb, std::map < Actor*, AABB > & actors ) const;
+	
+	void SetMainCamera( const Camera * camera );
+	Camera * GetMainCamera() const;
 	
 	float GetDeltaTime() const;
 	float GetTimeScale() const;
@@ -67,15 +77,12 @@ public:
 	void DestroyLight( const std::string name );
 	void DestroyActor( const std::string name );
 	
-	void DrawDebug() const;
 	void Draw() const;
 	
 	void UpdateBinaryCamera( const char * binary, const int len );
 	void UpdateBinaryLight( const char * binary, const int len );
 	void UpdateBinaryActor( const char * binary, const int len );
 	
-	void UpdateCollider();
-	void UpdateCollision();
 	void Update( const float deltaTime );
 	
 	void PausePhysics();

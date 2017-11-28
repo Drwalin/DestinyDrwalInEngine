@@ -70,7 +70,24 @@ NavMeshParent * World::GetNavMeshParent() const
 
 void World::GetActors( const AABB aabb, std::map < Actor*, bool > & actors ) const
 {
-	return collider.GetActor( aabb, actors );
+	if( collider )
+		collider->GetActor( aabb, actors );
+}
+
+void World::GetActors( const AABB aabb, std::map < Actor*, AABB > & actors ) const
+{
+	if( collider )
+		collider->GetActor( aabb, actors );
+}
+
+void World::SetMainCamera( const Camera * camera )
+{
+	this->mainCamera = camera;
+}
+
+Camera * World::GetMainCamera() const
+{
+	return this->mainCamera;
 }
 
 float World::GetDeltaTime() const
@@ -152,6 +169,9 @@ void World::DestroyActor( const std::string name )
 
 
 
+
+
+
 void World::PausePhysics()
 {
 	physicsPaused = true;
@@ -174,6 +194,8 @@ void World::StartGraphic()
 
 void World::Destroy()
 {
+	mainCamera = NULL;
+	
 	engine = NULL;
 	
 	name = "";
@@ -264,6 +286,8 @@ World::World()
 	
 	physicsPaused = false;
 	graphicPaused = false;
+	
+	mainCamera = NULL;
 }
 
 World::~World()

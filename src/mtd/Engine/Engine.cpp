@@ -1,7 +1,16 @@
 
 #pragma once
 
-void Engine::InitOpenGL( int argc, char ** argv );
+
+bool Engine::GetDebug() const
+{
+	return debug;
+}
+
+void Engine::SetDebug( const bool debug )
+{
+	this->debug = debug;
+}
 
 World * Engine::GetWorld() const
 {
@@ -13,11 +22,51 @@ SoundEngine * Engine::GetSoundEngine() const
 	return soundEngine;
 }
 
-int Engine::LoadPhysicsBody( const std::string fileName, const std::string name );/////////////////////////////////////////////////
-int Engine::LoadGraphicBody( const std::string fileName, const std::string name );/////////////////////////////////////////////////
-int Engine::LoadTexture( const std::string fileName, const std::string name );/////////////////////////////////////////////////////
-int Engine::LoadSound( const std::string fileName, const std::string name );///////////////////////////////////////////////////////
-int Engine::LoadOBJ( const std::string fileName, const std::string name );/////////////////////////////////////////////////////////
+void Engine::CallFunctionCustomDrawGUI()
+{
+	if( FunctionCustomDrawGUI )
+		FunctionCustomDrawGUI( deltaTime );
+}
+
+void Engine::CallFunctionCustomInput( const float deltaTime )
+{
+	if( FunctionCustomInput )
+		FunctionCustomInput( deltaTime );
+}
+
+int Engine::LoadPhysicsBody( const std::string fileName, const std::string name );///////////////////////////////////////////////////////////////////////////////////////////////////////
+int Engine::LoadGraphicBody( const std::string fileName, const std::string name );///////////////////////////////////////////////////////////////////////////////////////////////////////
+int Engine::LoadOBJ( const std::string fileName, const std::string name );///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int Engine::LoadTexture( const std::string fileName, const std::string name )
+{
+	Texture ** texture = &(this->texture[name]);
+	if( texture )
+	{
+		if( *texture == NULL )
+			*texture = new Texture;
+		if( (*texture)->Load( fileName, name, Texture::Linear, 1 ) )
+		{
+			return 1;
+		}
+		else
+		{
+			delete *texture;
+			this->texture.erase( "name" );
+			return 0;
+		}
+	}
+	else
+	{
+		this->texture.erase( "name" );
+	}
+	return 0;
+}
+
+int Engine::LoadSound( const std::string fileName, const std::string name )
+{
+	AddSound( fileName, name );
+}
 
 StaticActor * Engine::GetPhysicsBody( const std::string name ) const
 {
@@ -106,9 +155,80 @@ void Engine::SetFunctionCustomInput( FunctionVoidFloat * src )
 	FunctionCustomInput = src;
 }
 
-void Engine::MainLoop();/////////////////////////////////////////////////////////////////////////////////////////////////
+void Engine::Iteration( const float deltaTime )/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{
+	if( !world )
+		return;
+	
+	this->deltaTime = deltaTime;
+	
+	world->Update( deltaTime );
+	
+	Render();
+	
+	if( soundEngine && world->GetMainCamera() )
+		soundEngine->Update( world->GetMainCamera()->GetPos(), world->GetMainCamera()->GetForwardVector(), world->GetMainCamera()->GetUpVector() );
+	
+	//////////////////////
+	// Update by server //
+	//  Update clients  //
+	//////////////////////
+	switch( hostMode )
+	{
+	case HostClient:
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		break;
+	case HostServer:
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		break;
+	}
+}
 
-int Engine::Init( int argc, char ** argv, int hostMode, const AABB aabbWorld, const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Engine::Render()
+{
+	if( world && D3DWrapper::D3DDev() )
+	{
+		D3DWrapper::D3DDev()->Clear( 0, NULL, D3DCLEAR_TARGET,  D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0 );
+		D3DWrapper::D3DDev()->Clear( 0, NULL, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0 );
+		D3DWrapper::D3DDev()->BeginScene();
+		
+		if( world->GetMainCamera() )
+			world->GetMainCamera()->SetView();
+		
+		world->Draw();
+		
+		CallFunctionCustomDrawGUI();
+		
+		D3DWrapper::D3DDev()->EndScene();
+		D3DWrapper::D3DDev()->Present( NULL, NULL, NULL, NULL );
+	}
+}
+
+int Engine::Init( int argc, char ** argv, int hostMode, const AABB aabbWorld = AABB(Vector(-10000,-10000,-10000), Vector(10000,10000,10000)), const std::string name, const std:string worldName, const unsigned int frequencyParticleUpdate = 3 )///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+{
+	Graphic::Init( argc, argv );
+	Graphic::SetEngine( this );
+	Destroy();
+	
+	switch( hostMode )
+	{
+	case HostClient:
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		break;
+	case HostServer:
+		///////////////////////////////////////////////////////////////////////////////////////////////////////
+		break;
+	case HostNone:
+	default:
+		//server = NULL;
+		//client = NULL;
+	}
+	
+	this->name = name;
+	
+	world = new World();
+	world->Init( aabbWorld, worldName, this, frequencyParticleUpdate );
+}
 
 void Engine::Destroy()
 {
@@ -198,9 +318,6 @@ void Engine::Destroy()
 	
 	timeScale = 0.0f;
 	deltaTime = 0.0f;
-	
-	FunctionVoidFloat * FunctionCustomDrawGUI;
-	FunctionVoidFloat * FunctionCustomInput;
 }
 
 Engine::Engine()
@@ -230,6 +347,8 @@ Engine::Engine()
 Engine::~Engine()
 {
 	Destroy();
+	FunctionCustomDrawGUI = NULL;
+	FunctionCustomInput = NULL;
 }
 
 

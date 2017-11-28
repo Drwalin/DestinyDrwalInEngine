@@ -5,7 +5,7 @@ class StaticActor : public Actor
 {
 private:
 	
-	std::vector < std::string > hitSoundName;
+	std::vector < std::string > hitSoundNameList;
 	std::vector < Triangle* > triangle;
 	Octtree < Triangle* > octtree;
 	
@@ -31,6 +31,7 @@ public:
 	virtual Vector GetUpVector() const override;
 	
 	virtual void Update( const float deltaTime ) override;
+	virtual void IdentityCollisionData() override;
 	
 	virtual void AddForce( const Vector src ) override;
 	virtual void AddVelocity( const Vector src ) override;

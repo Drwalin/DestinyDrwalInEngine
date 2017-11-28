@@ -38,7 +38,8 @@ public:
 	virtual Vector GetRightVector() const =0;
 	virtual Vector GetUpVector() const=0;
 	
-	virtual void Update( const float deltaTime )=0;
+	virtual void Update( const float deltaTime )=0;			// update animation, pos, vel, force, {trigger volume call functions}
+	virtual void IdentityCollisionData()=0;					// set false collision types
 	
 	virtual void AddForce( const Vector src )=0;
 	virtual void AddVelocity( const Vector src )=0;

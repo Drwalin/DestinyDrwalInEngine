@@ -18,6 +18,7 @@ public:
 	void AddActor( const Actor * actor );
 	void DestroyActor( const Actor * actor );
 	void GetActor( const AABB aabb, std::map < Actor *, bool > & actors ) const;		// std::map actors - must be empty
+	void GetActor( const AABB aabb, std::map < Actor *, AABB > & actors ) const;		// std::map actors - must be empty
 	
 	void Clear();
 	

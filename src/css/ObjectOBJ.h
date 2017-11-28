@@ -36,6 +36,8 @@ private:
 	
 public:
 	
+	friend class StaticActor;
+	
 	int LoadFromOBJFile( const std::string fileName );
 	int SaveToOBJFile( const std::string fileName ) const;
 	
