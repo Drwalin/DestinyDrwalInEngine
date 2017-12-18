@@ -1,26 +1,6 @@
 
 #pragma once
 
-class Camera
-{
-private:
-	
-	std::string name;
-	
-	Vector pos;
-	Vector rotator;
-	
-	Vector forwardVector;
-	Vector upVector;
-	
-	float fov;
-	float zFar;
-	float zNear;
-	
-	float width;
-	float height;
-};
-
 void Camera::SetPos( const Vector src )
 {
 	pos = src;
@@ -29,16 +9,20 @@ void Camera::SetPos( const Vector src )
 void Camera::SetRotator( const Vector src )
 {
 	rotator = src;
+	Quat quat = Math::GetQaternion( rotator );
+	forwardVector = quat * Vector( 0.0f, 0.0f, 1.0f );
+	upVector = quat * Vector( 0.0f, 1.0f, 0.0f );
+	leftVector = quat * Vector( 1.0f, 0.0f, 0.0f );
 }
 
 Vector Camera::GetRightSideVector() const
 {
-	return ( forwardVector && upVector ).Versor();
+	return leftVector * (-1.0f);
 }
 
 Vector Camera::GetLeftSideVector() const
 {
-	return ( forwardVector && upVector ).Versor() * (-1.0f);
+	return leftVector;
 }
 
 Vector Camera::GetForwardVector() const
@@ -115,7 +99,11 @@ static void Camera::SetView( const Camera * camera )
 
 void Camera::Destroy();////////////////////////////////////////////////////////////////////////////////////////
 
-Camera::Camera();//////////////////////////////////////////////////////////////////////////////////////////////
+Camera::Camera()//////////////////////////////////////////////////////////////////////////////////////////////
+{
+	SetRotator( Vector( 0.0f, 0.0f, 0.0f ) );
+}
+
 Camera::~Camera();/////////////////////////////////////////////////////////////////////////////////////////////
 
 

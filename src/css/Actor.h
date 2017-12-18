@@ -26,7 +26,7 @@ public:
 	inline World * GetWorld() const;
 	inline std::string GetName() const;
 	
-	virtual void SetByTemplate( const Actor * src )=0;
+	//virtual void SetByTemplate( const Actor * src )=0;
 	
 	virtual void DrawDebug() const=0;
 	virtual void Draw() const=0;
@@ -34,11 +34,7 @@ public:
 	virtual AABB GetAABB() const=0;
 	virtual float GetHeight() const=0;
 	
-	virtual Vector GetForwardVector() const=0;
-	virtual Vector GetRightVector() const =0;
-	virtual Vector GetUpVector() const=0;
-	
-	virtual void Update( const float deltaTime )=0;			// update animation, pos, vel, force, {trigger volume call functions}
+	virtual void Update( const float deltaTime )=0;			// collision rection, update animation, pos, vel, force, {trigger volume call functions}
 	virtual void IdentityCollisionData()=0;					// set false collision types
 	
 	virtual void AddForce( const Vector src )=0;
@@ -59,22 +55,24 @@ public:
 	virtual Vector GetRotation() const=0;
 	
 	
-	virtual void UpdateBinary( const char * binary, const int len )=0;	// includes name and type (class)
-	virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data at this pointer
-	virtual int GetBinaryLength() const=0;				// includes name, type (class),
+	//virtual void UpdateBinary( const char * binary, const int len )=0;	// includes name and type (class)
+	//virtual int GetBinary( char * binary ) const=0;		// includes name and type (class), paste binary data at this pointer
+	//virtual int GetBinaryLength() const=0;				// includes name, type (class),
 	
 	virtual bool GetRayTrace( const Vector beg, const Vector end, Vector & point, Vector & normal )=0;
 	
+	void Init( const std::string name, const GraphicBody * graphicBody );
 	
-	static bool IsBinaryTriggerVolumeActor( const char * binary, const int len );
-	static bool IsBinaryDynamicActor( const char * binary, const int len );
-	static bool IsBinaryStaticActor( const char * binary, const int len );
 	
-	static Actor * GetNewActorByBinaryTemplate( const char * binary, const int len );
-	static Actor * GetNewActorByBinaryType( const char * binary, const int len );
+	//static bool IsBinaryTriggerVolumeActor( const char * binary, const int len );
+	//static bool IsBinaryDynamicActor( const char * binary, const int len );
+	//static bool IsBinaryStaticActor( const char * binary, const int len );
 	
-	static Actor * GetNewActorByTemplate( const Actor * src );
-	static Actor * GetNewActorByType( const Actor * src );
+	//static Actor * GetNewActorByBinaryTemplate( const char * binary, const int len );
+	//static Actor * GetNewActorByBinaryType( const char * binary, const int len );
+	
+	static Actor * GetNewActorByTemplate( const Actor * src, const std::string dstName );
+	static Actor * GetNewActorByType( const Actor * src, const std::string dstName );
 	
 	inline static void Destroy( Actor * src );
 	virtual void Destroy()=0;

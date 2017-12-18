@@ -8,6 +8,8 @@ private:
 	float currentFrameTime;
 	int currentAnimation;
 	
+	Vector rotator;
+	
 	GraphicBody * graphicBody;
 	
 public:
@@ -16,9 +18,10 @@ public:
 	float GetFrameTime() const;
 	int GetAnimation() const;
 	
-	void SetGraphicBody();
-	void SetFrameTime();
-	void SetAnimation();
+	void SetGraphicBody( const GraphicBody * graphicBody );
+	void SetFrameTime( const float t );
+	void SetAnimation( const int id );
+	void Rotate( const Vector rotator );
 	
 	void Update( const float deltaTime );
 	void Draw() const;

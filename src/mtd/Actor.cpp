@@ -21,19 +21,26 @@ inline std::string Actor::GetName() const
 	return name;
 }
 
-static bool Actor::IsBinaryTriggerVolumeActor( const char * binary, const int len );///////////////////////////////////////////////////////////////////
-static bool Actor::IsBinaryDynamicActor( const char * binary, const int len );/////////////////////////////////////////////////////////////////////////
-static bool Actor::IsBinaryStaticActor( const char * binary, const int len );//////////////////////////////////////////////////////////////////////////
-static Actor * Actor::GetNewActorByBinaryTemplate( const char * binary, const int len );///////////////////////////////////////////////////////////////
-static Actor * Actor::GetNewActorByBinaryType( const char * binary, const int len );///////////////////////////////////////////////////////////////////
-static Actor * Actor::GetNewActorByTemplate( const Actor * src );//////////////////////////////////////////////////////////////////////////////////////
+//static bool Actor::IsBinaryTriggerVolumeActor( const char * binary, const int len );///////////////////////////////////////////////////////////////////
+//static bool Actor::IsBinaryDynamicActor( const char * binary, const int len );/////////////////////////////////////////////////////////////////////////
+//static bool Actor::IsBinaryStaticActor( const char * binary, const int len );//////////////////////////////////////////////////////////////////////////
+//static Actor * Actor::GetNewActorByBinaryTemplate( const char * binary, const int len );///////////////////////////////////////////////////////////////
+//static Actor * Actor::GetNewActorByBinaryType( const char * binary, const int len );///////////////////////////////////////////////////////////////////
 
-Actor * Actor::GetNewActorByType( const Actor * src )
+static Actor * Actor::GetNewActorByTemplate( const Actor * src, const std::string dstName );/////////////////////////////////////////////////////////////
+
+Actor * Actor::GetNewActorByType( const Actor * src, const std::string dstName )/////////////////////////////////////////////////////////////////////////
 {
 	if( dynamic_cast < DynamicActor* > (src) )				return new DynamicActor;
 	if( dynamic_cast < StaticActor* > (src) )				return new StaticActor;
 	if( dynamic_cast < TriggerVolumeActor* > (src) )		return new TriggerVolumeActor;
 	return NULL;
+}
+
+void Actor::Init( const std::string name, const GraphicBody * graphicBody )
+{
+	this->name = name;
+	graphicBodyInfo.SetGraphicBody( graphicBody );
 }
 
 inline void Actor::Destroy( Actor * src )

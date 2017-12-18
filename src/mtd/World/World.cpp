@@ -23,10 +23,46 @@ PointParticle * World::ParticleSpawner()
 	return pointParticle;
 }
 
-Camera * World::SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight );/////////////////////////////////////////////
+Camera * World::SpawnCamera( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int TextureWidth, const int textureHeight )/////////////////////////////////////////////
+{
+	Camera ** camera = &(this->camera[name]);
+	if( camera )
+	{
+		if( *camera == NULL )
+			*camera = new Camera;
+		(*camera)->Init( name, pos, rotation, fov, zFar, zNear, TextureWidth, textureHeight );
+		return *camera;
+	}
+	else
+	{
+		this->camera.erase( "name" );
+	}
+	return NULL;
+}
+
 Light * World::SpawnLight( const std::string name, const Vector pos, const Vector rotation, const float fov, const float zNear, const float zFar, const int lightMapWidth, const int lightMapHeight );/////////////////////////////////////////////
 Actor * World::SpawnStaticActor( const std::string name, const std::string graphicBodyName, const std::string physicsBodyName );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Actor * World::SpawnDynamicActor( const std::string name, const std::string graphicBodyName, const Vector size );//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Actor * World::SpawnDynamicActor( const std::string name, const std::string graphicBodyName )
+{
+	if( engine )
+	{
+		Actor ** actor = &(this->camera[name]);
+		if( actor )
+		{
+			if( *actor == NULL )
+				*actor = new DynamicActor;
+			(*actor)->Init( name, engine->GetGraphicBody( graphicBodyName ) );
+			return *actor;
+		}
+		else
+		{
+			this->actor.erase( "name" );
+		}
+	}
+	return NULL;
+}
+
 Actor * World::SpawnTriggerVolumeActor( const std::string name, const Vector pos, const Vector size );/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Actor * World::SpawnActorByTemplate( const Actor * src, const std::string name );//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 NavMesh * World::SpawnNavMesh( const std::string name );///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

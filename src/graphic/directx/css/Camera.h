@@ -12,6 +12,7 @@ private:
 	
 	Vector forwardVector;
 	Vector upVector;
+	Vector leftVector;
 	
 	//Texture * textureColor;
 	//Texture * textureNormalMap;
@@ -46,9 +47,9 @@ public:
 	void Init( const std::string srcName, const Vector srcPos, const Vector srcRotator, const float srcFov, const float srcZFar, const float srcZNear, const float width, const float height );
 	
 	void SetView();										// set main matrices by
-	void SetTarget();									// set main target by (target texture, depth, normal)
+	//void SetTarget();									// set main target by (target texture, depth, normal)
 	static void SetView( const Camera * camera );		// set main matrices by
-	static void SetTarget( const Camera * camera );		// set main target by (target texture, depth, normal)
+	//static void SetTarget( const Camera * camera );		// set main target by (target texture, depth, normal)
 	
 	void Destroy();
 	
